@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "818521417550",
+    "project_id": "natal-nurture-app",
+    "storage_bucket": "natal-nurture-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818521417550:android:12a515b03f74e4419fe01f",
+        "android_client_info": {
+          "package_name": "com.example.natal_nurture_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818521417550-5id351dpj1cgnodcsvrpa72bqq66jhou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-1TqgxLJOiDXhs8bxM5t_YIuXP8Ulj-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818521417550-5id351dpj1cgnodcsvrpa72bqq66jhou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
