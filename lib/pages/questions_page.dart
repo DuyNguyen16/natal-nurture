@@ -24,7 +24,8 @@ class _QuestionPageState extends State<QuestionPage> {
           child: Column(
             children: [
               Text(
-                "Welcome to Natal Nurture"
+                "Welcome to Natal Nurture",
+                style: TextStyle(color: Colors.white),
               )
             ]
           ),
