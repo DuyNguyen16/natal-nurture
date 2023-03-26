@@ -35,8 +35,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
     //---try creating user account---
     try {
-        
-      
         if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(userEmail.text) == true) {
           if (userPasswordConfirm.text == userPassword.text) {
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
