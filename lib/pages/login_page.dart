@@ -124,106 +124,107 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                //---logo---
-            
-                //---hello again!---
-                Text(
-                  "Hello Again!",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40,
-                    color: Colors.white,
+                  //---logo---
+              
+                  //---hello again!---
+                  Text(
+                    "Hello Again!",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                      color: Colors.white,
+                      
+                    ),
+                  ),
+              
+                  const SizedBox(height: 7,),
+
+                  //---Welcome back text---
+                  Text(
+                    "Welcome back you've been missed",
+                    style: TextStyle(
+                      color: Colors.white, 
+                      fontSize: 17,
+
+                    ),
+
+                  ),
+
+                  SizedBox(height: 20,),
+
+                  //---email textfield---
+                  MyTextField(
+                    hintText: "Email",
+                    obsecureText: false,
+                    controller: emailController,
+                    icon: Icon(
+                      Icons.email,
+                      color: Colors.pinkAccent,
+                    ),
                     
                   ),
-                ),
-            
-                const SizedBox(height: 7,),
+                  SizedBox(height: 8,),
 
-                //---Welcome back text---
-                Text(
-                  "Welcome back you've been missed",
-                  style: TextStyle(
-                    color: Colors.white, 
-                    fontSize: 17,
-
+                  //---password textfield---
+                  MyTextField(
+                    hintText: 'Password',
+                    obsecureText: true,
+                    controller: passwordController,
+                    icon: Icon(
+                      Icons.password,
+                      color: Colors.pinkAccent,
+                    ),
+                    
                   ),
-
-                ),
-
-                SizedBox(height: 20,),
-
-                //---email textfield---
-                MyTextField(
-                  hintText: "Email",
-                  obsecureText: false,
-                  controller: emailController,
-                  icon: Icon(
-                    Icons.email,
-                    color: Colors.pinkAccent,
-                  ),
+              
+                  SizedBox(height: 7,),
                   
-                ),
-                SizedBox(height: 8,),
-
-                //---password textfield---
-                MyTextField(
-                  hintText: 'Password',
-                  obsecureText: true,
-                  controller: passwordController,
-                  icon: Icon(
-                    Icons.password,
-                    color: Colors.pinkAccent,
-                  ),
-                  
-                ),
-            
-                SizedBox(height: 7,),
-                
-                //---forgot password---
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 15,),
-            
-                //---sign in button---
-                MyButton(
-                  onTap: SignUserIn,
-                  text: 'Sign In',
-                ),
-            
-                const SizedBox(height: 17),
-            
-                //---not a member? register now---
-                Row( 
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Not a member?'),
-                    const SizedBox(width: 8,),
-                    GestureDetector(
-                      onTap: widget.onTap,
-                      child: Text(
-                       'Register now',
-                        style: TextStyle(
-                         fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                  //---forgot password---
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: Colors.black),
                         ),
-                      ),
-                    )
-                  ]
-                )
-              ],
-                      ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 15,),
+              
+                  //---sign in button---
+                  MyButton(
+                    onTap: SignUserIn,
+                    text: 'Sign In',
+                  ),
+              
+                  const SizedBox(height: 17),
+              
+                  //---not a member? register now---
+                  Row( 
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Not a member?'),
+                      const SizedBox(width: 8,),
+                      GestureDetector(
+                        onTap: widget.onTap,
+                        child: Text(
+                        'Register now',
+                          style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      )
+                    ]
+                  )
+                ],
+              ),
             ),
-        )),
+          )
+        ),
       ),
     );
   }
