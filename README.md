@@ -1,6 +1,6 @@
 # natal_nurture_1
 
-A new Flutter project.
+natal nurture is an app that inform their users about ...
 
 ## Getting Started
 
