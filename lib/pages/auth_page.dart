@@ -19,6 +19,7 @@ class AuthPage extends StatelessWidget {
         builder: (context, snapshot) {
           //---if user is logged in (checking if user finished question page)---
           if (snapshot.hasData) {
+            //need to code if the user answer question apge  before returning homePage()
             return HomePage();
           }
           else {
