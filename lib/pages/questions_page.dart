@@ -10,11 +10,8 @@ class QuestionPage extends StatefulWidget {
 }
 
 class _QuestionPageState extends State<QuestionPage> {
-  List recommendedFoodList = ["Ramen","Egg","Meat","Whey"];
 
-  removeAllergies(userAllergies,recommendedFoodList) {
-        
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,10 +19,9 @@ class _QuestionPageState extends State<QuestionPage> {
       body: SafeArea(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "Welcome to Natal Nurture",
-              )
+              
             ]
           ),
         )
