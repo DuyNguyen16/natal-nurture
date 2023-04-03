@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/pages/home_page.dart';
 import 'package:natal_nurture_1/pages/login_or_register_page.dart';
 import 'package:natal_nurture_1/pages/login_page.dart';
+import 'package:natal_nurture_1/pages/questions_page.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -20,7 +21,7 @@ class AuthPage extends StatelessWidget {
           //---if user is logged in (checking if user finished question page)---
           if (snapshot.hasData) {
             //need to code if the user answer question apge  before returning homePage()
-            return HomePage();
+            return QuestionPage();
           }
           else {
             return LoginOrRegisterPage();

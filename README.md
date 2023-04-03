@@ -1,6 +1,7 @@
 # natal_nurture_1
 
-natal nurture is an app that inform their users about ...
+natal nurture is an app that inform their users about what to eat during their pregnacy 
+and it also have the feature to inform what to feed their children.
 
 
 ## Getting Started
