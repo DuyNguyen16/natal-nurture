@@ -3,6 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:natal_nurture_1/components/my_button.dart';
+import 'package:natal_nurture_1/pages/questions_page.dart';
+
+import 'auth_page.dart';
 
 class HomePage extends StatefulWidget {
    HomePage({super.key});
@@ -16,9 +20,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     final user = FirebaseAuth.instance.currentUser!;
+
     
     //Sign User out method
     void SignUserOut() async{
+
       FirebaseAuth.instance.signOut();
     }
 
@@ -34,32 +40,15 @@ class _HomePageState extends State<HomePage> {
       ),
 
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromARGB(248, 244, 139, 163),
-          actions: [
-            IconButton(
-              onPressed: SignUserOut, 
-              icon: const Icon(Icons.logout),
-            )
-          ],
-        ),
-
-        backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "LOGGED IN!" + ' AS: ',
-                style: TextStyle(fontSize: 20, color: Colors.white), 
-              ),
-              Text(
-                user.email!,
-                style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
-              )
-            ],
-          )
-        ),
+              MyButton(
+                onTap: () { SignUserOut(); Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => AuthPage()));}, text: "Sign Out")
+              ]
+            ),
+          ),
         
       )
    );

@@ -64,8 +64,10 @@ class _LoginPageState extends State<LoginPage> {
       else if (e.code == 'wrong-password'){
         wrongPasswordMessage();
       }
+      Navigator.pop(context);
     }
   }
+      
 
   //---wrong email error message function---
   void wrongEmailMessage() {
