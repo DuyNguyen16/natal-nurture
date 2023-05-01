@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:natal_nurture_1/pages/auth_page.dart';
+import 'package:natal_nurture_1/pages/boarding_page.dart';
 import 'package:natal_nurture_1/pages/login_page.dart';
 import 'package:natal_nurture_1/pages/questions_page.dart';
 
