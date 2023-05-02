@@ -46,7 +46,9 @@ class _QuestionPageState extends State<QuestionPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MyButton(onTap: () { Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => HomePage()));}, text: "Continue"),
+              
               ]
+            
             ),
           ),
         
@@ -54,3 +56,5 @@ class _QuestionPageState extends State<QuestionPage> {
    );
   }
 }
+
+

@@ -133,8 +133,8 @@ class _LoginPageState extends State<LoginPage> {
                     "Hello Again!",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 40,
-                      color: Colors.white,
+                      fontSize: 50,
+                      color: Colors.pinkAccent,
                       
                     ),
                   ),
@@ -146,6 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                     "Welcome back you've been missed",
                     style: TextStyle(
                       color: Colors.white, 
+                      fontWeight: FontWeight.bold,
                       fontSize: 17,
 
                     ),
@@ -189,7 +190,10 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Text(
                           'Forgot Password?',
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -208,7 +212,13 @@ class _LoginPageState extends State<LoginPage> {
                   Row( 
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Not a member?'),
+                      Text(
+                        'Not a member?',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          
+                        ),
+                      ),
                       const SizedBox(width: 8,),
                       GestureDetector(
                         onTap: widget.onTap,

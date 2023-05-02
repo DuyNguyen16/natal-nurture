@@ -1,17 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:intl/intl.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
+import 'package:natal_nurture_1/pages/home_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../components/my_textfield.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -21,12 +18,49 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-
+  // firebase auth
   final FirebaseAuth auth = FirebaseAuth.instance;
   // page controller
   final page_controller = PageController();
+  // text editing controller to get data from input textfield
   final controller = TextEditingController();
+  // user id
   late String userUID;
+
+  // declear conceptiondate variable
+  late String conceptionDate;
+
+  // allergies list
+  List<String> userAllergies = [];
+
+  void ShowMultiSelect() async {
+
+    // list of allergies for user to select from
+    final List<String> allergies = [
+      'milk',
+      'egg',
+      'peanut',
+      'wheat',
+      'soybean',
+      'fish',
+    ];
+
+    // result after the user select the allergies
+    final List<String>? results = await showDialog(
+      context: context, 
+      builder: (BuildContext context) {
+        return MultiSelect(allergies: allergies);
+      }
+    );
+
+    // update the userAllergies to the result that the user selected
+    if (results != null) {
+      setState(() {
+        userAllergies = results;
+      });
+    }
+  }
+
 
   //funtion to fet user data from firebase  
   String getUserData() {
@@ -34,6 +68,23 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
    
    userUID = user!.uid;
    return userUID;
+  }
+
+
+  void enterConceptionDateMessage() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return const AlertDialog(
+          backgroundColor: Colors.pinkAccent,
+          title: Text(
+            'Please select a date of conception',
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+        );
+      },
+    );
   }
 
   // date controller
@@ -47,7 +98,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           // page view controller to change pages
           controller: page_controller,
           children: [
-            // PAGE 1
+
+            // ========================= BEGIN PAGE 1 =======================
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -72,14 +124,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               "Welcome!",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 40,
-                                color: Colors.white,
+                                fontSize: 35,
+                                color: Colors.pinkAccent,
                               
                               ),
                             ),
                           ),
 
-                          SizedBox(height: 10),
+                          SizedBox(height: 20),
                           Container(
                             
                             width: 300,
@@ -87,16 +139,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               "Natal Nurture is a pregnancy app the provides users with informations on what to to eat during their pregnacy.",
                               style: TextStyle(
                                 color: Colors.white, 
-                                fontSize: 17,
-                          
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.center,
                           
                             ),
                           ),
 
-                          SizedBox(height: 100),
+                          SizedBox(height: 90),
 
-                          MyButton(onTap: () => page_controller.jumpToPage(1), text: "Next"),
+                          MyButton(onTap: () => page_controller.jumpToPage(1), text: "Let's get started!"),
                           
                           SizedBox(height: 240),
 
@@ -104,7 +157,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             child: Center(
                               child: SmoothPageIndicator(
                                 controller: page_controller,
-                                count: 3,
+                                count: 4,
                                 effect: SwapEffect(activeDotColor: Colors.pinkAccent),
                               ),
                             ),
@@ -116,8 +169,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 ),
               ),
             ),
+            // ========================= END PAGE 1 ===============================
 
-            // PAGE 2
+            // ========================== BEGIN PAGE 2 ============================
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -144,13 +198,25 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 30,
-                                color: Colors.white,
+                                color: Colors.pinkAccent,
                               
                               ),
                             ),
                           ),
+
+                          SizedBox(height: 10),
+
+                          Container(child: 
+                            Text(
+                              'Please select your date of conception',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                           
-                          SizedBox(height: 40),
+                          SizedBox(height: 20),
                         
                           Container(
                             width: 330,
@@ -190,18 +256,19 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           ),
 
                           SizedBox(height: 15),
+
                           MyButton(onTap: () => page_controller.jumpToPage(2), text: "Next"),
 
                           SizedBox(height: 8),
 
-                          MyButton(onTap: () => page_controller.jumpToPage(0), text: "Back"),
+                          TextButton(onPressed: () => {page_controller.jumpToPage(0)}, child: Text("Back")),
 
-                          SizedBox(height: 230),
+                          SizedBox(height: 222),
 
                           Center(
                             child: SmoothPageIndicator(
                               controller: page_controller,
-                              count: 3,
+                              count: 4,
                               effect: SwapEffect(activeDotColor: Colors.pinkAccent),
                               
                             ),
@@ -213,9 +280,112 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 ),
               ),
             ),
+            // ========================== END PAGE 2 ============================
 
 
-            // PAGE 3
+            // =========================== BEGIN PAGE 3 =========================
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    "images/background.png"
+                  ),
+                  fit: BoxFit.cover,
+                )
+              ),
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: SafeArea(
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          SizedBox(height: 100),
+
+                          Text(
+                            "Allergies Selection",
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.pinkAccent,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          
+                          SizedBox(height: 20),
+
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: 260,
+                              child: Text(
+                                "Please select foods that you're allergies to, so that we can ensure the foods we recommned don't contains them.",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              )
+                            ),
+                          ),
+
+
+                          SizedBox(height: 30),
+
+                          MyButton(
+                            onTap: ShowMultiSelect,
+                            text: "Select your allergies"
+                          ),
+                          
+                          SizedBox(height: 10),
+
+                          MyButton(onTap: () => {page_controller.jumpToPage(3)}, text: "Next",
+                          ),
+
+                          TextButton(onPressed: () => {page_controller.jumpToPage(1)}, child: Text("Back")),
+                          
+                          const Divider(height: 30),
+
+                          Text(
+                            "Allergies selected: ",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Wrap(
+                            children: userAllergies.map((allergy) => Chip(
+                              label: Text(allergy),
+                              labelStyle: TextStyle(
+                                color: Colors.pinkAccent,
+                              ),
+                            )).toList(),
+                          ),
+
+                          SizedBox(height: 145),
+
+                          Center(
+                            child: SmoothPageIndicator(
+                              controller: page_controller,
+                              count: 4,
+                              effect: SwapEffect(activeDotColor: Colors.pinkAccent),
+                            ),
+                          )
+                        ],
+                        
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // =========================== END PAGE 3 =================================
+
+
+
+            // ============================ BEGIN PAGE 4 ==============================
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -235,22 +405,58 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(date.text),
+
+                          SizedBox(height: 160),
+
+                          Text(
+                            "You're all set!",
+                            style: TextStyle(
+                              color: Colors.pinkAccent,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40,
+                            ),
+                          ),
+
+                          SizedBox(height: 20,),
+
+                          Text(
+                            "You can change these in the setting anytime",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                            ),
+
+                          
+                          SizedBox(height: 50,),
+
                           MyButton(
                             onTap: () {
-                              
-                              final selected_date = date.text;
-                              final user_UID = getUserData();
-
-                              createUser(selected_date: selected_date, userUID: user_UID);
+                              // check if user select date of conception
+                              if (date.text == "")
+                              {
+                                  enterConceptionDateMessage();
+                                  page_controller.jumpToPage(1);
+                              }
+                              else
+                              {
+                                  conceptionDate = date.text;
+                                  final user_UID = getUserData();
+                                  createUser(selected_date: conceptionDate, userUID: user_UID, userAllergies: userAllergies); 
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+                              }
                             },
-                            text: "Enter",
+                            
+                            text: "Done!",
                           ),
-                          SizedBox(height: 650),
+                          
+                          SizedBox(height: 300,),
+                          
                           Center(
                             child: SmoothPageIndicator(
                               controller: page_controller,
-                              count: 3,
+                              count: 4,
                               effect: SwapEffect(activeDotColor: Colors.pinkAccent),
                             ),
                           )
@@ -261,6 +467,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 ),
               ),
             ),
+            // ============================ END PAGE 4 ==================================
           ],
         ),
       ),
@@ -268,14 +475,73 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
     
   }
-  Future createUser({required String selected_date, required String userUID}) async {
+  Future createUser({required String selected_date, required String userUID, required List userAllergies}) async {
       // reference to document on firebase
       final UserDoc = FirebaseFirestore.instance.collection('users').doc(getUserData());
 
       final json = {
         'UserUID': userUID,
         'Date': selected_date,
+        'userAllergies': userAllergies,
       };
       await UserDoc.set(json);
+  }
+}
+
+// multiple selecting allergies class
+class MultiSelect extends StatefulWidget {
+
+  final List<String> allergies;
+  const MultiSelect({Key? key, required this.allergies}) : super(key: key);
+
+  @override
+  State<MultiSelect> createState() => _MultiSelectState();
+}
+
+class _MultiSelectState extends State<MultiSelect> {
+  final List<String> userAllergies = [];
+
+  void allergiesChange(String allergieValue, bool isSelected)
+  {
+    setState(() {
+      // check if item is selected if yes add item to userAllergies
+      if (isSelected) {
+        userAllergies.add(allergieValue);
+      }
+      else {
+        userAllergies.remove(allergieValue);
+      };
+
+    });
+  }
+
+  void cancelSelect() {
+    Navigator.pop(context);
+  }
+
+  void submitSelect() {
+    Navigator.pop(context, userAllergies);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Select allergies"),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: 
+            widget.allergies.map((allergy) => CheckboxListTile(
+              value: userAllergies.contains(allergy), 
+              title: Text(allergy),
+              controlAffinity: ListTileControlAffinity.leading,
+              onChanged: (isChecked) => allergiesChange(allergy, isChecked!),
+            )).toList()
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: cancelSelect, child: Text("Cancel")),
+        ElevatedButton(onPressed: submitSelect, child: Text("Submit"))
+      ],
+    );
   }
 }

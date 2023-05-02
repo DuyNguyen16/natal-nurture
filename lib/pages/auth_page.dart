@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +9,34 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/pages/home_page.dart';
 import 'package:natal_nurture_1/pages/login_or_register_page.dart';
 import 'package:natal_nurture_1/pages/login_page.dart';
-import 'package:natal_nurture_1/pages/questions_page.dart';
 import 'package:natal_nurture_1/pages/boarding_page.dart';
 
 class AuthPage extends StatelessWidget {
   AuthPage({super.key});
   final auth = FirebaseAuth.instance;
+
+  late String userUID;
+  String getUserData() {
+   final user = auth.currentUser;
+   
+   userUID = user!.uid;
+   return userUID;
+  }
+
+  Future<bool> documentExist(String userUID) async {
+    DocumentSnapshot<Map<String, dynamic>> document = await FirebaseFirestore.instance.collection("users").doc(userUID).get();
+
+    if (document.exists)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  } 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +45,12 @@ class AuthPage extends StatelessWidget {
         stream: auth.authStateChanges(),
         builder: (context, snapshot) {
           //---if user is logged in (checking if user finished question page)---
-          if (snapshot.hasData) {
-            //need to code if the user answer question apge  before returning homePage()
+          if (snapshot.hasData) 
+          { 
             return OnBoardingPage();
           }
-          else {
+          else 
+          {
             return LoginOrRegisterPage();
           }
         },
