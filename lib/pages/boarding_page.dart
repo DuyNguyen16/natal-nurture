@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
 import 'dart:convert';
 
@@ -240,8 +240,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             onTap: () {
                               
                               final selected_date = date.text;
+                              final user_UID = getUserData();
 
-                              createUser(selected_date: selected_date);
+                              createUser(selected_date: selected_date, userUID: user_UID);
                             },
                             text: "Enter",
                           ),
@@ -267,12 +268,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
     
   }
-  Future createUser({required String selected_date}) async {
+  Future createUser({required String selected_date, required String userUID}) async {
       // reference to document on firebase
       final UserDoc = FirebaseFirestore.instance.collection('users').doc(getUserData());
 
       final json = {
-        'name': "Duy",
+        'UserUID': userUID,
         'Date': selected_date,
       };
       await UserDoc.set(json);
