@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:natal_nurture_1/pages/auth_page2.dart';
 import 'package:natal_nurture_1/pages/home_page.dart';
 import 'package:natal_nurture_1/pages/login_or_register_page.dart';
 import 'package:natal_nurture_1/pages/login_page.dart';
@@ -20,9 +21,9 @@ class AuthPage extends StatelessWidget {
    final user = auth.currentUser;
    
    userUID = user!.uid;
-   return userUID;
+  return userUID;
   }
-
+   
   Future<bool> documentExist(String userUID) async {
     DocumentSnapshot<Map<String, dynamic>> document = await FirebaseFirestore.instance.collection("users").doc(userUID).get();
 
@@ -47,12 +48,13 @@ class AuthPage extends StatelessWidget {
           //---if user is logged in (checking if user finished question page)---
           if (snapshot.hasData) 
           { 
-            return OnBoardingPage();
+            return AuthPage2();
           }
           else 
           {
             return LoginOrRegisterPage();
           }
+          
         },
       ),
     );

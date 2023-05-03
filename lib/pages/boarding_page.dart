@@ -124,7 +124,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               "Welcome!",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 35,
+                                fontSize: 40,
                                 color: Colors.pinkAccent,
                               
                               ),
@@ -139,7 +139,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               "Natal Nurture is a pregnancy app the provides users with informations on what to to eat during their pregnacy.",
                               style: TextStyle(
                                 color: Colors.white, 
-                                fontSize: 15,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                               textAlign: TextAlign.center,
@@ -151,7 +151,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
                           MyButton(onTap: () => page_controller.jumpToPage(1), text: "Let's get started!"),
                           
-                          SizedBox(height: 240),
+                          SizedBox(height: 228),
 
                           Container(
                             child: Center(
@@ -417,19 +417,24 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             ),
                           ),
 
-                          SizedBox(height: 20,),
+                          SizedBox(height: 10),
 
-                          Text(
-                            "You can change these in the setting anytime",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                            ),
+                          Container(
+                            width: 260,
+                            child: Text(
+                              "You can change these in the setting anytime",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                
+                              ),
+                              ),
+                          ),
 
                           
-                          SizedBox(height: 50,),
+                          SizedBox(height: 60,),
 
                           MyButton(
                             onTap: () {
@@ -450,8 +455,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             
                             text: "Done!",
                           ),
+
+                          TextButton(onPressed: () => {page_controller.jumpToPage(2)}, child: Text("Back")),
                           
-                          SizedBox(height: 300,),
+                          SizedBox(height: 220),
                           
                           Center(
                             child: SmoothPageIndicator(

@@ -1,10 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
 
@@ -28,7 +25,18 @@ class _RegisterPageState extends State<RegisterPage> {
   final userEmail = TextEditingController();
   final userPassword = TextEditingController();
   final userPasswordConfirm = TextEditingController();
+  final controller = TextEditingController();
+  late String userUID;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   
+  //funtion to fet user data from firebase  
+  String getUserData() {
+   final user = auth.currentUser;
+   
+   userUID = user!.uid;
+   return userUID;
+  }
+
 
   //---Sign user in method (Email and Password Method)---
   void signUserUp() async {
@@ -75,6 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
             },
           );
         }
+        
       }
  
     //---check to see if there is an existing account---
@@ -240,6 +249,8 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
         )),
       ),
+      
     );
+    
   }
 }
