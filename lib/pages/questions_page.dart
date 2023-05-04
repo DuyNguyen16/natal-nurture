@@ -5,7 +5,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
 import 'package:natal_nurture_1/pages/auth_page.dart';
-import 'package:natal_nurture_1/pages/home_page.dart';
+import 'package:natal_nurture_1/pages/home/home_page.dart';
+import 'package:natal_nurture_1/pages/Setting_page.dart';
 
 import '../components/my_button.dart';
 

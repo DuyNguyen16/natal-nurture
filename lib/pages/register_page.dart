@@ -114,7 +114,9 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       },
     );
+    Navigator.pop(context);
   }
+  
 
   //---wrong password error message function---
   void wrongPasswordMessage() {
@@ -133,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
       },
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(

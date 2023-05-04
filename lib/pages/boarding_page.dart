@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
-import 'package:natal_nurture_1/pages/home_page.dart';
+import 'package:natal_nurture_1/pages/home/home_page.dart';
+import 'package:natal_nurture_1/pages/Setting_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
@@ -37,12 +38,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
     // list of allergies for user to select from
     final List<String> allergies = [
-      'milk',
+      'dairy',
       'egg',
       'peanut',
       'wheat',
-      'soybean',
-      'fish',
+      'soy',
+      'seafood',
     ];
 
     // result after the user select the allergies
@@ -136,7 +137,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             
                             width: 300,
                             child: Text(
-                              "Natal Nurture is a pregnancy app the provides users with informations on what to to eat during their pregnacy.",
+                              "Natal Nurture is a pregnancy app that provides users with informations on what to to eat during their pregnacy.",
                               style: TextStyle(
                                 color: Colors.white, 
                                 fontSize: 18,

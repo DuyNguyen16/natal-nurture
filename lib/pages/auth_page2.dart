@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:natal_nurture_1/pages/boarding_page.dart';
-import 'package:natal_nurture_1/pages/home_page.dart';
+import 'package:natal_nurture_1/pages/home/home_page.dart';
+import 'package:natal_nurture_1/pages/home/pregnant_page.dart';
+import 'package:natal_nurture_1/pages/Setting_page.dart';
 
 class AuthPage2 extends StatefulWidget {
   AuthPage2({super.key});
@@ -44,9 +46,12 @@ class _AuthPage2State extends State<AuthPage2> {
     return Scaffold(
       body: Center(
         child: FutureBuilder<bool>(
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!) {
+                builder: (context, snapshot) 
+                {
+                  if (snapshot.hasData) 
+                  {
+                    if (snapshot.data!) 
+                    {
                       return HomePage();
                     }
                     else 

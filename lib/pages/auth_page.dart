@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/pages/auth_page2.dart';
-import 'package:natal_nurture_1/pages/home_page.dart';
+import 'package:natal_nurture_1/pages/Setting_page.dart';
 import 'package:natal_nurture_1/pages/login_or_register_page.dart';
 import 'package:natal_nurture_1/pages/login_page.dart';
 import 'package:natal_nurture_1/pages/boarding_page.dart';
