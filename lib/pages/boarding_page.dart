@@ -431,7 +431,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 fontSize: 18,
                                 
                               ),
-                              ),
+                            ),
                           ),
 
                           
@@ -447,9 +447,24 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               }
                               else
                               {
+                                    final recommendedFood = <String, String>{
+                                      "avocados":"avocados",
+                                      "dairy":"yoghurt",
+                                      "egg":"egg",
+                                      "fruit":"apple",
+                                      "meats":"mince",
+                                      "seafood":"salmon",
+                                      "soy":"tofu",
+                                    };
+
+
                                   conceptionDate = date.text;
                                   final user_UID = getUserData();
-                                  createUser(selected_date: conceptionDate, userUID: user_UID, userAllergies: userAllergies); 
+                                  int length = userAllergies.length;
+                                  userAllergies.forEach((item) {
+                                    recommendedFood.remove(item);
+                                  },);
+                                  createUser(selected_date: conceptionDate, userUID: user_UID, userAllergies: userAllergies, recommendedFood: recommendedFood); 
                                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => HomePage()));
                               }
                             },
@@ -483,14 +498,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
     
   }
-  Future createUser({required String selected_date, required String userUID, required List userAllergies}) async {
+  Future createUser({required String selected_date, required String userUID, required List userAllergies, required Map recommendedFood}) async {
       // reference to document on firebase
       final UserDoc = FirebaseFirestore.instance.collection('users').doc(getUserData());
-
       final json = {
         'UserUID': userUID,
         'Date': selected_date,
         'userAllergies': userAllergies,
+        "recommendedFood": recommendedFood,
       };
       await UserDoc.set(json);
   }

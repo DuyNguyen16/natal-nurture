@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:natal_nurture_1/pages/home/child_page.dart';
 import 'package:natal_nurture_1/pages/women_week/monday_page.dart';
+import 'package:natal_nurture_1/pages/women_week/tuesday_page.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../Setting_page.dart';
@@ -142,7 +143,7 @@ class _PregPageState extends State<PregPage> {
                             }
                             return Center(
                               child: CircularPercentIndicator(
-                                radius: 150,
+                                radius: 75,
                                 lineWidth: 10,
                                 percent: percentCal(nine_months, days_remained),
                                 center: Text("${days_remained}", style: TextStyle(color: Colors.pinkAccent, fontSize: 40, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
@@ -194,24 +195,29 @@ class _PregPageState extends State<PregPage> {
                               ),
                             ),
                     
-                            Container(
-                              margin: EdgeInsets.all(15),
-                              height: 80,
-                              width: 280,
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Colors.pinkAccent,
-                                borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Tuesday",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                )
+                            GestureDetector(
+                              onTap: () {
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => TuesPage()));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(15),
+                                height: 80,
+                                width: 280,
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Colors.pinkAccent,
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Tuesday",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  )
+                                ),
                               ),
                             ),
                     

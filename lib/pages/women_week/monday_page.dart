@@ -31,7 +31,7 @@ class _MondayPageState extends State<MondayPage> {
       body: SafeArea(
         child: Container(
           child: Column(children: [
-            FoodRec()
+            FoodRec(),
             
             ]),
         ),

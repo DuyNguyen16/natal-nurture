@@ -6,7 +6,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/pages/home/home_page.dart';
 import 'package:natal_nurture_1/pages/home/pregnant_page.dart';
-import 'package:natal_nurture_1/pages/questions_page.dart';
 
 import 'auth_page.dart';
 
