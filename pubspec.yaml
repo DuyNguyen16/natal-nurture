@@ -38,7 +38,10 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   # date package
   intl: ^0.17.0
+  # percentage circle indictor package
   percent_indicator: ^4.0.1
+  # flushbar package
+  another_flushbar: ^1.12.29
 
   flutter:
     sdk: flutter
@@ -68,6 +71,29 @@ flutter:
     - images/natal.png
     - images/background.png
     - images/home.png
+    - images/food_images/chicken.png
+    - images/food_images/apple.png
+    - images/food_images/avocados.png
+    - images/food_images/banana.png
+    - images/food_images/beans.png
+    - images/food_images/berries.png
+    - images/food_images/broccoli.png
+    - images/food_images/cheese.png
+    - images/food_images/chicken.png
+    - images/food_images/chickpea.png
+    - images/food_images/egg.png
+    - images/food_images/kale.png
+    - images/food_images/lean_beef.png
+    - images/food_images/lemon.png
+    - images/food_images/lentils.png
+    - images/food_images/mangoes.png
+    - images/food_images/milk.png
+    - images/food_images/orange.png
+    - images/food_images/peas.png
+    - images/food_images/pork.png
+    - images/food_images/spinach.png
+    - images/food_images/sweet_potato.png
+    - images/food_images/yugurt.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

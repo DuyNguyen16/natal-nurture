@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  //---wrong password error message function---
+  //wrong password error message function
   void wrongPasswordMessage() {
     showDialog(
       context: context, 

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
+import 'package:natal_nurture_1/pages/data/classes.dart';
 import 'package:natal_nurture_1/pages/home/home_page.dart';
 import 'package:natal_nurture_1/pages/Setting_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -29,7 +30,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   late String userUID;
 
   // declear conceptiondate variable
-  late String conceptionDate;
+  late String selectedDate;
 
   // allergies list
   List<String> userAllergies = [];
@@ -40,10 +41,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     final List<String> allergies = [
       'dairy',
       'egg',
-      'peanut',
-      'wheat',
+      'fruits',
+      'legumes',
       'soy',
       'seafood',
+      'meat',
+      'potato',
+      'vegetable'
     ];
 
     // result after the user select the allergies
@@ -64,7 +68,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
 
   //funtion to fet user data from firebase  
-  String getUserData() {
+  String getUserUID() {
    final user = auth.currentUser;
    
    userUID = user!.uid;
@@ -96,6 +100,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     return Scaffold(
       body: Container(  
         child: PageView(
+          physics: NeverScrollableScrollPhysics(),
           // page view controller to change pages
           controller: page_controller,
           children: [
@@ -438,7 +443,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           SizedBox(height: 60,),
 
                           MyButton(
-                            onTap: () {
+                            onTap: () async{
                               // check if user select date of conception
                               if (date.text == "")
                               {
@@ -447,24 +452,21 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               }
                               else
                               {
-                                    final recommendedFood = <String, String>{
-                                      "avocados":"avocados",
-                                      "dairy":"yoghurt",
-                                      "egg":"egg",
-                                      "fruit":"apple",
-                                      "meats":"mince",
-                                      "seafood":"salmon",
-                                      "soy":"tofu",
-                                    };
+                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection('foods').doc("food-id").get();
+                                    Map recommendedFood = document["recFoods"];
+                                    
 
 
-                                  conceptionDate = date.text;
-                                  final user_UID = getUserData();
-                                  int length = userAllergies.length;
+                                  selectedDate = date.text;
+                                  final userUID = getUserUID();
+
+                                  // loop through every items in userAllergies list
                                   userAllergies.forEach((item) {
+                                    // remove the items at the recommended food map
                                     recommendedFood.remove(item);
                                   },);
-                                  createUser(selected_date: conceptionDate, userUID: user_UID, userAllergies: userAllergies, recommendedFood: recommendedFood); 
+
+                                  createUser(selectedDate: selectedDate, userUID: userUID, userAllergies: userAllergies, recommendedFood: recommendedFood); 
                                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => HomePage()));
                               }
                             },
@@ -498,12 +500,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
     
   }
-  Future createUser({required String selected_date, required String userUID, required List userAllergies, required Map recommendedFood}) async {
+  Future createUser({required String selectedDate, required String userUID, required List userAllergies, required Map recommendedFood}) async {
       // reference to document on firebase
-      final UserDoc = FirebaseFirestore.instance.collection('users').doc(getUserData());
+      final UserDoc = FirebaseFirestore.instance.collection('users').doc(getUserUID());
+      // name and items to create
       final json = {
         'UserUID': userUID,
-        'Date': selected_date,
+        'Date': selectedDate,
         'userAllergies': userAllergies,
         "recommendedFood": recommendedFood,
       };
@@ -511,60 +514,3 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 }
 
-// multiple selecting allergies class
-class MultiSelect extends StatefulWidget {
-
-  final List<String> allergies;
-  const MultiSelect({Key? key, required this.allergies}) : super(key: key);
-
-  @override
-  State<MultiSelect> createState() => _MultiSelectState();
-}
-
-class _MultiSelectState extends State<MultiSelect> {
-  final List<String> userAllergies = [];
-
-  void allergiesChange(String allergieValue, bool isSelected)
-  {
-    setState(() {
-      // check if item is selected if yes add item to userAllergies
-      if (isSelected) {
-        userAllergies.add(allergieValue);
-      }
-      else {
-        userAllergies.remove(allergieValue);
-      };
-
-    });
-  }
-
-  void cancelSelect() {
-    Navigator.pop(context);
-  }
-
-  void submitSelect() {
-    Navigator.pop(context, userAllergies);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text("Select allergies"),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: 
-            widget.allergies.map((allergy) => CheckboxListTile(
-              value: userAllergies.contains(allergy), 
-              title: Text(allergy),
-              controlAffinity: ListTileControlAffinity.leading,
-              onChanged: (isChecked) => allergiesChange(allergy, isChecked!),
-            )).toList()
-        ),
-      ),
-      actions: [
-        TextButton(onPressed: cancelSelect, child: Text("Cancel")),
-        ElevatedButton(onPressed: submitSelect, child: Text("Submit"))
-      ],
-    );
-  }
-}
