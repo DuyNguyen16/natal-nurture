@@ -17,20 +17,7 @@ class AuthPage extends StatelessWidget {
    userUID = user!.uid;
   return userUID;
   }
-   
-  Future<bool> documentExist(String userUID) async {
-    DocumentSnapshot<Map<String, dynamic>> document = await FirebaseFirestore.instance.collection("users").doc(userUID).get();
-
-    if (document.exists)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  } 
-
+  
 
   @override
   Widget build(BuildContext context) {

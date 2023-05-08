@@ -1,57 +1,179 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+
+
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:natal_nurture_1/pages/Setting_page.dart';
-import 'package:natal_nurture_1/pages/home/child_page.dart';
-import 'package:natal_nurture_1/pages/home/pregnant_page.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int currentIndex = 0;
-  final screens = [
-    PregPage(),
-    ChildPage(),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[currentIndex],
-      appBar: AppBar(
-        backgroundColor: Color.fromRGBO(255, 164, 190, 1),
-        actions: <Widget> [
-          IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));}, icon: Icon(Icons.settings))
-        ],
-        automaticallyImplyLeading: false,
-      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(height: 20,),
 
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentIndex,
-        onTap: (index) => setState(() => currentIndex = index) ,
-        items: [   
-          BottomNavigationBarItem(
-            icon: Icon(Icons.woman),
-            label: "Pregnant",
-            
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.child_friendly),
-            label: "Children",
-            
-          )
-        ]
+            Row(
+              mainAxisAlignment:MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 250,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 6,
+                        offset: Offset(0, 0), 
+                      ),
+                    ],
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage(
+                        "images/tips.png" 
+                      )
+                    )
+                  ),
+                ),
+              ]
+            ),
+
+            SizedBox(height: 20,),
+
+            Container(
+              width: 340,
+              height: 310,
+              margin: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 3,
+                    blurRadius: 7,
+                    offset: Offset(0, 0),
+                  ),
+                          ],
+              ),
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            child: Text(
+                              "Foods to avoid during pregnancy:",
+                              style: TextStyle(
+                                fontSize: 20, 
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 18),
+                      child: ListBody(
+                        children: [
+                          Row(
+                            children: [
+                              Text("1.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
+                              Text(" soft cheeses", style: TextStyle(fontSize: 20))
+                            ],
+                          ),
+                          
+                          SizedBox(height: 3,),
+
+                          Row(
+                            children: [
+                              Text("2.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
+                              Text(" undercooked meat", style: TextStyle(fontSize: 20))
+                            ],
+                          ),
+                          SizedBox(height: 3,),
+
+                          Row(
+                            children: [
+                              Text("3.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
+                              Text(" undercooked fish", style: TextStyle(fontSize: 20))
+                            ],
+                          ),
+
+                          SizedBox(height: 3,),
+
+                          Row(
+                            children: [
+                              Text("4.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
+                              Text(" undercooked seafood", style: TextStyle(fontSize: 20))
+                            ],
+                          ),
+
+                          SizedBox(height: 3,),
+
+                          Row(
+                            children: [
+                              Text("5.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
+                              Text(" unwashed fruits and vegetables", style: TextStyle(fontSize: 20))
+                            ],
+                          ),
+
+                          SizedBox(height: 3,),
+
+                          Row(
+                            children: [
+                              Text("6.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
+                              Text(" soft-serve ice cream", style: TextStyle(fontSize: 20))
+                            ],
+                          ),
+
+                          SizedBox(height: 3,),
+
+                          Row(
+                            children: [
+                              Text("7.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
+                              Text(" undercooked or raw eggs", style: TextStyle(fontSize: 20))
+                            ],
+                          ),
+
+                          SizedBox(height: 3,),
+
+                          Row(
+                            children: [
+                              Text("8.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
+                              Text(" unpasteurised milk", style: TextStyle(fontSize: 20))
+                            ],
+                          ),
+
+                          SizedBox(height: 3,),
+                          
+                          Row(
+                            children: [
+                              Text("9.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
+                              Text(" alcohol", style: TextStyle(fontSize: 20))
+                            ],
+                          ),
+                        ]
+                      ),
+                    )
+                  ]
+                ),
+              )
+            )
+          ]
+        ),
       ),
     );
-
-
   }
 }

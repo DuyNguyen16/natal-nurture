@@ -22,9 +22,9 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   
 
-  final userEmail = TextEditingController();
-  final userPassword = TextEditingController();
-  final userPasswordConfirm = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final passwordConfirmController = TextEditingController();
   final controller = TextEditingController();
   late String userUID;
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -38,22 +38,73 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
 
-  //---Sign user in method (Email and Password Method)---
+  //---Sign user up function (Email and Password Method)---
   void signUserUp() async {
+
+   // check if the user enter informations
+    if (emailController.text == "" || passwordController.text == ""|| passwordConfirmController.text == "")
+    {
+      return showDialog(
+        context: context, 
+        builder: (context) {
+          Future.delayed(Duration(seconds: 2), () {
+            Navigator.of(context).pop(true);
+          });
+
+          return const AlertDialog(
+            backgroundColor: Colors.pinkAccent,
+            title: Center(
+              child: Text(
+                'Please enter informations',
+                style: TextStyle(color: Colors.white),
+              ),
+              
+            ),
+          );         
+        },
+      );
+    }
 
     //---try creating user account---
     try {
-        if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(userEmail.text) == true) {
-          if (userPasswordConfirm.text == userPassword.text) {
+        if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text) == true) {
+          // check length of password
+          if ((passwordController.text).length < 6)
+          {
+            return showDialog(
+              context: context, 
+              builder: (context) {
+                Future.delayed(Duration(seconds: 2), () {
+                  Navigator.of(context).pop(true);
+                });
+
+                return const AlertDialog(
+                  backgroundColor: Colors.pinkAccent,
+                  title: Center(
+                    child: Text(
+                      'Password should be at least 6 characters',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    
+                  ),
+                );         
+              },
+            );
+          }
+          // check if passwords match
+          if (passwordConfirmController.text == passwordController.text) {
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: userEmail.text, 
-              password: userPassword.text,
+              email: emailController.text, 
+              password: passwordController.text,
             );
           } 
           else {
             showDialog(
               context: context, 
               builder: (context) {
+                Future.delayed(Duration(seconds: 2), () {
+                  Navigator.of(context).pop(true);
+                });
                 return const AlertDialog(
                   backgroundColor: Colors.pinkAccent,
                   title: Center(
@@ -71,6 +122,9 @@ class _RegisterPageState extends State<RegisterPage> {
           showDialog(
             context: context, 
             builder: (context) {
+              Future.delayed(Duration(seconds: 2), () {
+                Navigator.of(context).pop(true);
+              });
               return const AlertDialog(
                 backgroundColor: Colors.pinkAccent,
                 title: Center(
@@ -85,6 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
         }
         
       }
+      
  
     //---check to see if there is an existing account---
     on FirebaseAuthException catch (e) {
@@ -93,11 +148,11 @@ class _RegisterPageState extends State<RegisterPage> {
       //---Check to see if user email is correct---
       if (e.code == 'user-not-found') {
         //show error to user
-        wrongEmailMessage();
+        return wrongEmailMessage();
       } 
       //---Check to see if user password is correct---
       else if (e.code == 'wrong-password'){
-        wrongPasswordMessage();
+        return wrongPasswordMessage();
       }
     }
   }
@@ -107,6 +162,9 @@ class _RegisterPageState extends State<RegisterPage> {
     showDialog(
       context: context, 
       builder: (context) {
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+        });
         return const AlertDialog(
           title: Text(
             'Incorrect Email or Password'
@@ -123,6 +181,9 @@ class _RegisterPageState extends State<RegisterPage> {
     showDialog(
       context: context, 
       builder: (context) {
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+        });        
         return const AlertDialog(  
           backgroundColor: Colors.pinkAccent,
           title: Text(
@@ -166,7 +227,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   "Welcome!",
                   style: TextStyle(fontWeight: FontWeight.bold, 
                   fontSize: 40,
-                  color: Colors.white             
+                  color: Colors.pinkAccent,            
                   ),
                 ),
             
@@ -174,14 +235,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 //---Welcome back text---
                 Text(
                   "Let's create an account for you!",
-                  style: TextStyle(color: Colors.white, fontSize: 17),
+                  style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20,),
                 //---email textfield---
                 MyTextField(
                   hintText: "Email",
                   obsecureText: false,
-                  controller: userEmail,
+                  controller: emailController,
                   icon: Icon(
                     Icons.email,
                     color: Colors.pinkAccent,
@@ -194,7 +255,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 MyTextField(
                   hintText: 'Password',
                   obsecureText: true,
-                  controller: userPassword,
+                  controller: passwordController,
                   icon: Icon(
                     Icons.password,
                     color: Colors.pinkAccent,
@@ -207,7 +268,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 MyTextField(
                   hintText: 'Confirm Password',
                   obsecureText: true,
-                  controller: userPasswordConfirm,
+                  controller: passwordConfirmController,
                   icon: Icon(
                     Icons.password,
                     color: Colors.pinkAccent,

@@ -4,12 +4,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:natal_nurture_1/pages/home/home_page.dart';
+import 'package:natal_nurture_1/pages/home/navigator.dart';
 
 
 class FoodPage extends StatelessWidget {
   FoodPage({super.key, required this.index, required this.thisWeekFood});
-
   // function to get the current day food name
   String getFoodName (List thisWeekFood)
   {
@@ -155,7 +154,7 @@ class FoodPage extends StatelessWidget {
     else if (foodName == 'Spinach') {
       return "images/food_images/spinach.png";
     }
-    return "Unable to load image";
+    return "images/failed.png";
   }
   // Firebase initualise
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -207,7 +206,7 @@ class FoodPage extends StatelessWidget {
         backgroundColor: Color.fromRGBO(255, 164, 190, 1),
         title: Text(getWeekDay(index), style: TextStyle(color: Colors.black),),
         leading: Container(child:  
-          IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));}, icon: Icon(Icons.arrow_back_rounded, color: Colors.black,), )
+          IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => NavigatorPage()));}, icon: Icon(Icons.arrow_back_rounded, color: Colors.black,), )
         ),
         automaticallyImplyLeading: false,
       ),
@@ -241,32 +240,36 @@ class FoodPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 20, right: 20, top: 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                color: Colors.white,
+                color: Color.fromARGB(255, 243, 242, 242),
               ),
               child: Container(
                 
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // food name
                     Text(
                       getFoodName(thisWeekFood),
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 25,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold
                       ),
                     ),
+                    SizedBox(height: 10,),
+
+                    Divider(color: Colors.grey,),
 
                     SizedBox(height: 20,),
                     
                     Container(
-                      child: Text("Description: ", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                      child: Text("Description: ", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                     ),
                     
-                    SizedBox(height: 10,),
+                    SizedBox(height: 25,),
 
                     Container(
-                      child: Text(getfoodDescription(getFoodName(thisWeekFood))),
+                      child: Text(getfoodDescription(getFoodName(thisWeekFood)), style: TextStyle(fontSize: 15),),
                     )
                   ]
                 ),

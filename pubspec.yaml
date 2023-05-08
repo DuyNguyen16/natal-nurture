@@ -94,6 +94,24 @@ flutter:
     - images/food_images/spinach.png
     - images/food_images/sweet_potato.png
     - images/food_images/yugurt.png
+    - images/food_images/banana_muffins.png
+    - images/food_images/beef.png
+    - images/food_images/brunch_style_egg.png
+    - images/food_images/cereal.png
+    - images/food_images/chicken_and_rice.png
+    - images/food_images/chicken_salad.png
+    - images/food_images/egg_salad.png
+    - images/food_images/fried_rice.png
+    - images/food_images/muffins.png
+    - images/food_images/pancakes.png
+    - images/food_images/pasta.png
+    - images/food_images/pork_and_rice.png
+    - images/food_images/sandwich.png
+    - images/food_images/scrambled_egg.png
+    - images/food_images/snoothie.png
+    - images/food_images/whole_grain_toast.png
+    - images/failed.png
+    - images/tips.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -299,9 +299,11 @@ class _PregPageState extends State<PregPage> {
                                   onTap: () async {
                                     //get current user document
                                     DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                    
                                     // get current user specific field
                                     List thisWeekFood = document["thisWeekFood"];
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => FoodPage(index: 0, thisWeekFood: thisWeekFood,)));
+
+                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => FoodPage(index: 0, thisWeekFood: thisWeekFood)));
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left:15, right: 15, top: 15),

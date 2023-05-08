@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/pages/data/classes.dart';
-import 'package:natal_nurture_1/pages/home/home_page.dart';
+import 'package:natal_nurture_1/pages/home/navigator.dart';
 import 'package:natal_nurture_1/pages/Setting_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -74,6 +74,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
    userUID = user!.uid;
    return userUID;
   }
+
+
 
 
   void enterConceptionDateMessage() {
@@ -444,6 +446,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
                           MyButton(
                             onTap: () async{
+                              
                               // check if user select date of conception
                               if (date.text == "")
                               {
@@ -467,7 +470,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                   },);
 
                                   createUser(selectedDate: selectedDate, userUID: userUID, userAllergies: userAllergies, recommendedFood: recommendedFood); 
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => NavigatorPage()));
                               }
                             },
                             

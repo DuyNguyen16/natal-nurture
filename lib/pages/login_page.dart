@@ -28,8 +28,31 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  //---Sign user in method (Email and Password Method)---
+  //---Sign user in function (Email and Password Method)---
   void SignUserIn() async {
+    
+    // check if the user enter informations
+    if (emailController.text.isEmpty || passwordController.text.isEmpty)
+    {
+      return showDialog(
+        context: context, 
+        builder: (context) {
+          Future.delayed(Duration(seconds: 2), () {
+            Navigator.of(context).pop(true);
+          });
+          return const AlertDialog(
+            backgroundColor: Colors.pinkAccent,
+            title: Center(
+              child: Text(
+                'Please enter informations',
+                style: TextStyle(color: Colors.white),
+              ),             
+            ),
+          );         
+        },
+      );
+      
+    }
 
     //---show loading circle---
     showDialog(
@@ -40,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     );
-  
+    
     //---try sign in---
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -58,11 +81,11 @@ class _LoginPageState extends State<LoginPage> {
       //---Check to see if user email is correct---
       if (e.code == 'user-not-found') {
         //show error to user
-        wrongEmailMessage();
+        return wrongEmailMessage();
       } 
       //---Check to see if user password is correct---
       else if (e.code == 'wrong-password'){
-        wrongPasswordMessage();
+        return wrongPasswordMessage();
       }
       Navigator.pop(context);
     }
@@ -74,6 +97,9 @@ class _LoginPageState extends State<LoginPage> {
     showDialog(
       context: context, 
       builder: (context) {
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+        });
         return const AlertDialog(
           backgroundColor: Colors.pinkAccent,
           title: Text(
@@ -90,6 +116,9 @@ class _LoginPageState extends State<LoginPage> {
     showDialog(
       context: context, 
       builder: (context) {
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+        });
         return const AlertDialog(  
           backgroundColor: Colors.pinkAccent,
           title: Text(
@@ -202,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
               
                   //---sign in button---
                   MyButton(
-                    onTap: SignUserIn,
+                    onTap:SignUserIn,
                     text: 'Sign In',
                   ),
               

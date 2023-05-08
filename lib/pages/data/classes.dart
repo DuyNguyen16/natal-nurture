@@ -8,9 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-Future<void> delay(int seconds) async {
-  await Future.delayed(Duration(seconds: seconds));
-}
+
+
 
 
 // multiple selecting allergies class

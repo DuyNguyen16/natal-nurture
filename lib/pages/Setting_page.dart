@@ -1,11 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
-import 'package:natal_nurture_1/pages/home/home_page.dart';
-import 'package:natal_nurture_1/pages/home/pregnant_page.dart';
+import 'package:natal_nurture_1/pages/home/navigator.dart';
 
 import 'auth_page.dart';
 
@@ -47,7 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 MyButton(
                   onTap: () { SignUserOut(); Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => AuthPage()));}, text: "Sign Out"),
-                TextButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));}, child: Text("Back")),  
+                TextButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => NavigatorPage()));}, child: Text("Back")),  
               ],
             ),
           ),

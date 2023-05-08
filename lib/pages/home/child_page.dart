@@ -12,21 +12,17 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/pages/Setting_page.dart';
 import 'package:natal_nurture_1/pages/food_page/child_food_page.dart';
 import 'package:natal_nurture_1/pages/food_page/women_food_page.dart';
-import 'package:natal_nurture_1/pages/home/home_page.dart';
+import 'package:natal_nurture_1/pages/home/navigator.dart';
 
 
-class ChildPage extends StatefulWidget {
-  const ChildPage({super.key});
+class ChildPage extends StatelessWidget {
+   ChildPage({super.key});
 
-  @override
-  State<ChildPage> createState() => _ChildPageState();
-}
-
-class _ChildPageState extends State<ChildPage> {
   // Firebase initualise
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   late String userUID;
-  
+
   //funtion to fet user uid from firebase  
   String getUserUID() {
    final user = auth.currentUser;
@@ -34,7 +30,7 @@ class _ChildPageState extends State<ChildPage> {
    userUID = user!.uid;
    return userUID;
   }
-  
+
   // a funtion that return a random item in a list
   String getRandomFood(List foodList) {
     var random = Random().nextInt(foodList.length);
@@ -110,7 +106,7 @@ class _ChildPageState extends State<ChildPage> {
                           ],
                         ),
 
-                        // get food
+                        // get food button
                         child: GestureDetector(
                           onTap: () async {
                       
@@ -127,11 +123,16 @@ class _ChildPageState extends State<ChildPage> {
                             //get kid food breakfast recommend
                             DocumentSnapshot document = await FirebaseFirestore.instance.collection('foods').doc('kid-food-id').get();
                             // get breakfast field
-                            List recommendedFood = document["breakfast"];
+                            List breakfast = document["breakfast"];
+                            List lunch = document["lunch"];
+                            List dinner = document["dinner"];
                             
                             List todayFoods = [];
                             
-                            todayFoods.add(getRandomFood(recommendedFood));
+                            // add food to list
+                            todayFoods.add(getRandomFood(breakfast));
+                            todayFoods.add(getRandomFood(lunch));
+                            todayFoods.add(getRandomFood(dinner));
                             
                             createFoodRec(todayFoods: (todayFoods));
                       
@@ -161,7 +162,7 @@ class _ChildPageState extends State<ChildPage> {
                             ),
                             child: Center(
                               child: Text(
-                                "Get foods",
+                                "Get Foods",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -175,7 +176,7 @@ class _ChildPageState extends State<ChildPage> {
                       
                       SizedBox(height: 20),
 
-                      // ============================ BEGIN DAYS CONTAINER ================================
+                      // ============================ BEGIN TODAY CONTAINER ==============================
                       Container(
                         height: 300,
                         width: 300,
@@ -188,7 +189,7 @@ class _ChildPageState extends State<ChildPage> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 5,
                               blurRadius: 7,
-                              offset: Offset(0, -5), // changes position of shadow
+                              offset: Offset(0, -5), 
                             ),
                           ],
                         ),
@@ -201,12 +202,13 @@ class _ChildPageState extends State<ChildPage> {
                               // ================ BREAKFAST BUTTON ===============
                               GestureDetector(
                                 onTap: () async {
-                                  //get current user document
-                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
-                                    // get current user specific field
-                                    List todayFoods = document["todayFoods"];
-
+                                  //get current food documebt
+                                  DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
+                                  // get today food fied
+                                  List todayFoods = document["todayFoods"];
+                                  
                                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChildFoodPage(index: 0, todayFoods: todayFoods,)));
+                              
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(left:15, right: 15, top: 15),
@@ -231,11 +233,16 @@ class _ChildPageState extends State<ChildPage> {
                                 ),
                               ),
 
-                              // ================ TUESDAY BUTTON ===============
+                              // ================ LUNCH BUTTON ===============
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                //get current food documebt
+                                  DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
+                                  // get today food fied
+                                  List todayFoods = document["todayFoods"];
+                                  
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChildFoodPage(index: 1, todayFoods: todayFoods)));
                                 
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => HomePage()));
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -259,32 +266,43 @@ class _ChildPageState extends State<ChildPage> {
                                 ),
                               ),
 
-                              // ================ WEDNESDAY BUTTON ===============
-                              Container(
-                                margin: EdgeInsets.only(left: 15, right: 15, top: 15),
-                                height: 80,
-                                width: 280,
-                                padding: EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  color: Colors.pinkAccent,
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Dinner",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
-                                    ),
-                                  )
+                              // ================ DINNER BUTTON ===============
+                              GestureDetector(
+                                onTap: () async {
+                                //get current food documebt
+                                  DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
+                                  // get today food fied
+                                  List todayFoods = document["todayFoods"];
+                                  
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChildFoodPage(index: 2, todayFoods: todayFoods,)));
+                                
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+                                  height: 80,
+                                  width: 280,
+                                  padding: EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.pinkAccent,
+                                    borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Dinner",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    )
+                                  ),
                                 ),
                               ),
                             ]
                           ),
                         ),
                       ),
-                      // ============================ DAYS CONTAINER ================================
+                      // ============================ END TODAY CONTAINER ================================
                     ],
                 ),
               ),
