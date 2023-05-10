@@ -16,7 +16,7 @@ class FoodPage extends StatelessWidget {
   }
 
   // function to get the image
-  String getfoodDescription(foodName) {
+  String getFoodDescription(foodName) {
     if (foodName == 'Milk') {
       return "Milk is high in calcium and protein and should be included in the pregnant woman's diet. Calcium is especially vital during pregnancy for assisting the growing infant in developing strong bones.";
     }
@@ -87,7 +87,7 @@ class FoodPage extends StatelessWidget {
   }
 
   // function to get the image
-  String getfoodImage(foodName) {
+  String getFoodImage(foodName) {
     if (foodName == 'Milk') {
       return "images/food_images/milk.png";
     }
@@ -223,7 +223,7 @@ class FoodPage extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                    getfoodImage(
+                    getFoodImage(
                       getFoodName(thisWeekFood)
                     )
                   )
@@ -269,7 +269,7 @@ class FoodPage extends StatelessWidget {
                     SizedBox(height: 25,),
 
                     Container(
-                      child: Text(getfoodDescription(getFoodName(thisWeekFood)), style: TextStyle(fontSize: 15),),
+                      child: Text(getFoodDescription(getFoodName(thisWeekFood)), style: TextStyle(fontSize: 15),),
                     )
                   ]
                 ),

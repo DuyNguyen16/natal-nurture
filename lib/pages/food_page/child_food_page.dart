@@ -31,11 +31,11 @@ class ChildFoodPage extends StatelessWidget {
     {
       return "Dinner";
     }
-    return "Unable to load time";
+    return "Unable";
   }
 
   // function to get the image
-  String getfoodImage(foodName) {
+  String getFoodImage(foodName) {
     if (foodName == 'Pancakes') {
       return "images/food_images/pancakes.png";
     }
@@ -90,6 +90,62 @@ class ChildFoodPage extends StatelessWidget {
     return "images/failed.png";
   }
 
+  // function to get the food description
+  String getFoodDescription(foodName) {
+    if (foodName == 'Pancakes') {
+      return "186 calories, 4 grams of protein, 30 grams of carbohydrate, 1 gram of fiber, and 5 grams of sugar.";
+    }
+    else if (foodName == 'Brunch style eggs') {
+      return "";
+    }
+    else if (foodName == 'Smoothie') {
+      return "Smoothies can be a great way to increase intakes of fruit and vegetables in our diet, which would have many health benefits.";
+    }
+    else if (foodName == 'Muffins') {
+      return "Muffin provides 209 calories, 8 grams of protein, 41 grams of carbohydrate, 3 grams of dietary fiber, 3 grams sugar, 2 grams of fat and 391 milligrams of sodium.";
+    }
+    else if (foodName == 'Cereal') {
+      return "Cereal is a good source of protein, a good source of B vitamins, including folate. Many minerals, including iron, magnesium, copper, phosphorus, and zinc, can be found in it.";
+    }
+    else if (foodName == 'Whole grain toast') {
+      return "Consuming whole grain bread decreases total cholesterol, LDL cholesterol, triglycerides, and insulin levels.";
+    }
+    else if (foodName == 'Chicken and rice') {
+      return "Benefits of eating chicken and rice is that it packed with protein and carbs, increases muscle mass, improves bone health and boost immunity.";
+    }
+    else if (foodName == 'Pork and rice') {
+      return "Benefits of eating pork and rice is that it provides vitamins B12, B6 that helps immune system to work normally.";
+    }
+    else if (foodName == 'Beef') {
+      return "Beef is rich in protein which helps muscle growth and supports muscle mass.";
+    }
+    else if (foodName == 'Bananas') {
+      return "Bananas provides potassium which helps your body maintain a healthy heart and blood pressure.";
+    }
+    else if (foodName == 'Scrambled eggs') {
+      return "Eggs that are scrambled are a wonderful source of protein. They are a fantastic source of essential nutrients, including vitamin B6, B12, and vitamin D, and they also contain heart-healthy unsaturated fats.";
+    }
+    else if (foodName == 'Sandwich') {
+      return "Sandwiches offer lean protein, fiber-rich vegetables, healthy fats, and complex carbohydrates.";
+    }
+    else if (foodName == 'Fried rice') {
+      return "Fried rice contains chopped vegetables, which are high in fibre, vitamins, and minerals, all of which are necessary for proper bodily function.";
+    }
+    else if (foodName == 'Chicken salad') {
+      return "Chicken salad is rich in lean protein and a decent source of iron";
+    }
+    else if (foodName == 'Egg salad') {
+      return "Egg salad is good for your body as it provides a lot of proteins.";
+    }
+    else if (foodName == 'Pasta') {
+      return "Pasta is a good source of energy and it also can help with stomach problems and may help lower cholesterol.";
+    }
+    else if (foodName == 'Banana muffins') {
+      return "Bananas are high in fibre and antioxidants, and the other ingredients in the dish are healthier.";
+    }
+    return "unable to load description";
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +171,7 @@ class ChildFoodPage extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                    getfoodImage(getFoodName(todayFoods)),
+                    getFoodImage(getFoodName(todayFoods)),
                   )
                 )
               ),
