@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
+import 'package:natal_nurture_1/pages/reset_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   //---register now button ontap funtion
@@ -75,56 +76,58 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context);
 
       //---check to see if there is an existing account---
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (exception) {
       //---pop the loading circle---
       Navigator.pop(context);
       //---Check to see if user email is correct---
-      if (e.code == 'user-not-found') {
+      if (exception.code == 'user-not-found') {
         //show error to user
-        return wrongEmailMessage();
+        return myMessageDialog("Incorrect email");
       } 
       //---Check to see if user password is correct---
-      else if (e.code == 'wrong-password'){
-        return wrongPasswordMessage();
+      else if (exception.code == 'wrong-password'){
+        return myMessageDialog("Incorrect password");
+      }
+      else {
+        return showDialog(
+      context: context, 
+      builder: (context) {
+        Future.delayed(Duration(seconds: 7), () {
+          Navigator.of(context).pop(true);
+        });
+        //---Alert user---
+        return  AlertDialog(
+          backgroundColor: Colors.pinkAccent,
+          title: Center(
+            child: Text(
+            "Account has been temporarily disabled due to many failed login attempts, please try again in a few minutes",
+            style: TextStyle(color: Colors.white), textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      },
+    );
       }
       Navigator.pop(context);
     }
   }
       
 
-  //---wrong email error message function---
-  void wrongEmailMessage() {
+    //---message function---
+  void myMessageDialog(String message) {
     showDialog(
       context: context, 
       builder: (context) {
         Future.delayed(Duration(seconds: 2), () {
           Navigator.of(context).pop(true);
         });
-        return const AlertDialog(
+        //---Alert user---
+        return  AlertDialog(
           backgroundColor: Colors.pinkAccent,
-          title: Text(
-            'Incorrect Email or Password',
-            style: TextStyle(color: Colors.white),
-          ),
-        );
-      },
-    );
-  }
-
-  //wrong password error message function
-  void wrongPasswordMessage() {
-    showDialog(
-      context: context, 
-      builder: (context) {
-        Future.delayed(Duration(seconds: 2), () {
-          Navigator.of(context).pop(true);
-        });
-        return const AlertDialog(  
-          backgroundColor: Colors.pinkAccent,
-          title: Text(
-            'Incorrect Email or Password',
-            style: TextStyle(
-              color: Colors.white
+          title: Center(
+            child: Text(
+            message,
+            style: TextStyle(color: Colors.white), textAlign: TextAlign.center,
             ),
           ),
         );
@@ -217,11 +220,23 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context, 
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => ResetPassPage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],

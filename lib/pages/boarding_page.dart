@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
-import 'package:natal_nurture_1/pages/data/classes.dart';
+import 'package:natal_nurture_1/pages/random/classes.dart';
 import 'package:natal_nurture_1/pages/home/navigator.dart';
 import 'package:natal_nurture_1/pages/Setting_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -67,7 +67,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 
 
-  //funtion to fet user data from firebase  
+  //funtion to fetch user id from firebase  
   String getUserUID() {
    final user = auth.currentUser;
    

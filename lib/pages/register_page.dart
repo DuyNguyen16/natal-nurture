@@ -6,7 +6,7 @@ import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
 
 class RegisterPage extends StatefulWidget {
-  //---register now button ontap funtion
+  //---register now button ontap funtion---
   final Function()? onTap;
   const RegisterPage({
     super.key,
@@ -20,7 +20,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -29,167 +28,77 @@ class _RegisterPageState extends State<RegisterPage> {
   late String userUID;
   final FirebaseAuth auth = FirebaseAuth.instance;
   
-  //funtion to fet user data from firebase  
-  String getUserData() {
+  //---funtion to fetch user UID from firebase---
+  String getUserUID() {
+    //---get current user---
    final user = auth.currentUser;
-   
    userUID = user!.uid;
    return userUID;
   }
 
-
   //---Sign user up function (Email and Password Method)---
   void signUserUp() async {
 
-   // check if the user enter informations
-    if (emailController.text == "" || passwordController.text == ""|| passwordConfirmController.text == "")
+   // ---check if the user enter informations---
+    if (emailController.text.isEmpty || passwordController.text.isEmpty|| passwordConfirmController.text.isEmpty)
     {
-      return showDialog(
-        context: context, 
-        builder: (context) {
-          Future.delayed(Duration(seconds: 2), () {
-            Navigator.of(context).pop(true);
-          });
-
-          return const AlertDialog(
-            backgroundColor: Colors.pinkAccent,
-            title: Center(
-              child: Text(
-                'Please enter informations',
-                style: TextStyle(color: Colors.white),
-              ),
-              
-            ),
-          );         
-        },
-      );
+      myMessageDialog('Please enter informations');
     }
 
     //---try creating user account---
-    try {
-        if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text) == true) {
-          // check length of password
-          if ((passwordController.text).length < 6)
-          {
-            return showDialog(
-              context: context, 
-              builder: (context) {
-                Future.delayed(Duration(seconds: 2), () {
-                  Navigator.of(context).pop(true);
-                });
-
-                return const AlertDialog(
-                  backgroundColor: Colors.pinkAccent,
-                  title: Center(
-                    child: Text(
-                      'Password should be at least 6 characters',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    
-                  ),
-                );         
-              },
-            );
-          }
-          // check if passwords match
-          if (passwordConfirmController.text == passwordController.text) {
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: emailController.text, 
-              password: passwordController.text,
-            );
-          } 
-          else {
-            showDialog(
-              context: context, 
-              builder: (context) {
-                Future.delayed(Duration(seconds: 2), () {
-                  Navigator.of(context).pop(true);
-                });
-                return const AlertDialog(
-                  backgroundColor: Colors.pinkAccent,
-                  title: Center(
-                    child: Text(
-                    'Password do not match',
-                    style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                );
-              },
-            );
-          }
-        } 
-        else {
-          showDialog(
-            context: context, 
-            builder: (context) {
-              Future.delayed(Duration(seconds: 2), () {
-                Navigator.of(context).pop(true);
-              });
-              return const AlertDialog(
-                backgroundColor: Colors.pinkAccent,
-                title: Center(
-                  child: Text(
-                  'Invalid Email',
-                  style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              );
-            },
+    
+    if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text) == true) 
+    {
+      //---check length of password---
+      if ((passwordController.text).length < 6)
+      {
+        myMessageDialog('Password should be at least 6 characters');
+      }
+      //---check if passwords match---
+      if (passwordConfirmController.text == passwordController.text) 
+      {
+        try
+        {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text, 
+            password: passwordController.text,
           );
         }
-        
-      }
-      
- 
-    //---check to see if there is an existing account---
-    on FirebaseAuthException catch (e) {
-      //---pop the loading circle---
-      Navigator.pop(context);
-      //---Check to see if user email is correct---
-      if (e.code == 'user-not-found') {
-        //show error to user
-        return wrongEmailMessage();
+        //---check to see if there is an existing account---
+        on FirebaseAuthException catch (exception) {
+        //---pop the loading circle---
+          Navigator.pop(context);
+          //---Check to see if user email is correct---
+          if (exception.code == 'email-already-exists') {
+            //show error to user
+            return myMessageDialog("email already in use");
+          } 
+        }
       } 
-      //---Check to see if user password is correct---
-      else if (e.code == 'wrong-password'){
-        return wrongPasswordMessage();
+      else {
+        myMessageDialog('Password do not match');
       }
+    } 
+    else {
+      myMessageDialog('Invalid Email');
     }
   }
 
-  //---wrong email error message function---
-  void wrongEmailMessage() {
+  //---message function---
+  void myMessageDialog(String message) {
     showDialog(
       context: context, 
       builder: (context) {
         Future.delayed(Duration(seconds: 2), () {
           Navigator.of(context).pop(true);
         });
-        return const AlertDialog(
-          title: Text(
-            'Incorrect Email or Password'
-          ),
-        );
-      },
-    );
-    Navigator.pop(context);
-  }
-  
-
-  //---wrong password error message function---
-  void wrongPasswordMessage() {
-    showDialog(
-      context: context, 
-      builder: (context) {
-        Future.delayed(Duration(seconds: 2), () {
-          Navigator.of(context).pop(true);
-        });        
-        return const AlertDialog(  
+        //---Alert user---
+        return  AlertDialog(
           backgroundColor: Colors.pinkAccent,
-          title: Text(
-            'Incorrect Email or Password',
-            style: TextStyle(
-              color: Colors.white
+          title: Center(
+            child: Text(
+            message,
+            style: TextStyle(color: Colors.white),
             ),
           ),
         );
@@ -293,7 +202,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 Row( 
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Already have an account?'),
+                    Text('Already have an account?',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(width: 8,),
                     GestureDetector(
                       onTap: widget.onTap,

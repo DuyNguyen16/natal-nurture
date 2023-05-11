@@ -8,14 +8,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:natal_nurture_1/pages/data/classes.dart';
+import 'package:natal_nurture_1/pages/random/classes.dart';
 import 'package:natal_nurture_1/pages/food_page/women_food_page.dart';
 import 'package:natal_nurture_1/pages/home/child_page.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 
 class PregPage extends StatefulWidget {
-  PregPage({super.key});
+  const PregPage({super.key});
   @override
   State<PregPage> createState() => _PregPageState();
 
@@ -84,7 +84,6 @@ class _PregPageState extends State<PregPage> {
                 "images/home.png"
                 ),
               fit: BoxFit.cover,
-              
             )
           ),
 

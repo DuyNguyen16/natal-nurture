@@ -26,7 +26,6 @@ class ChildPage extends StatelessWidget {
   //funtion to fet user uid from firebase  
   String getUserUID() {
    final user = auth.currentUser;
-   
    userUID = user!.uid;
    return userUID;
   }
