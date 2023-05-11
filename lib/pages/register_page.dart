@@ -4,16 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
+import 'package:natal_nurture_1/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
-  //---register now button ontap funtion---
-  final Function()? onTap;
-  const RegisterPage({
-    super.key,
-    required this.onTap,
-  });
-  
-  
+  RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -207,7 +201,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(width: 8,),
                     GestureDetector(
-                      onTap: widget.onTap,
+                      onTap: () {
+                        Navigator.push(
+                          context, 
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation1, animation2) => LoginPage(),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          ),
+                        );
+                      },
                       child: Text(
                        'Login now',
                         style: TextStyle(

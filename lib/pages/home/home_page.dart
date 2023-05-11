@@ -90,7 +90,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text("1.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-                              Text(" soft cheeses", style: TextStyle(fontSize: 20))
+                              Text(" Soft cheeses", style: TextStyle(fontSize: 20))
                             ],
                           ),
                           
@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text("2.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-                              Text(" undercooked meat", style: TextStyle(fontSize: 20))
+                              Text(" Undercooked meat", style: TextStyle(fontSize: 20))
                             ],
                           ),
                           SizedBox(height: 3,),
@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text("3.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-                              Text(" undercooked fish", style: TextStyle(fontSize: 20))
+                              Text(" Undercooked fish", style: TextStyle(fontSize: 20))
                             ],
                           ),
 
@@ -116,7 +116,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text("4.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-                              Text(" undercooked seafood", style: TextStyle(fontSize: 20))
+                              Text(" Undercooked seafood", style: TextStyle(fontSize: 20))
                             ],
                           ),
 
@@ -125,7 +125,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text("5.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-                              Text(" unwashed fruits and vegetables", style: TextStyle(fontSize: 20))
+                              Text(" Unwashed fruits and vegetables", style: TextStyle(fontSize: 20))
                             ],
                           ),
 
@@ -134,7 +134,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text("6.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-                              Text(" soft-serve ice cream", style: TextStyle(fontSize: 20))
+                              Text(" Soft-serve ice cream", style: TextStyle(fontSize: 20))
                             ],
                           ),
 
@@ -143,7 +143,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text("7.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-                              Text(" undercooked or raw eggs", style: TextStyle(fontSize: 20))
+                              Text(" Undercooked or raw eggs", style: TextStyle(fontSize: 20))
                             ],
                           ),
 
@@ -152,7 +152,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text("8.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-                              Text(" unpasteurised milk", style: TextStyle(fontSize: 20))
+                              Text(" Unpasteurised milk", style: TextStyle(fontSize: 20))
                             ],
                           ),
 
@@ -161,7 +161,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text("9.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-                              Text(" alcohol", style: TextStyle(fontSize: 20))
+                              Text(" Alcohol", style: TextStyle(fontSize: 20))
                             ],
                           ),
                         ]

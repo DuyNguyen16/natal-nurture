@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
@@ -32,7 +33,6 @@ class _PregPageState extends State<PregPage> {
 
   // Firebase initualise
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final FirebaseFirestore store = FirebaseFirestore.instance;
   late String userUID;
   
   // function that calculate the percentage of the days remained
@@ -70,6 +70,30 @@ class _PregPageState extends State<PregPage> {
       await foodDoc.set(json);
   }
 
+  //---funtion to create user random foods and add it to database---
+  getUserFood() async {
+    //get current user document
+    DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc(getUserUID()).get();
+    // get current user specific field
+    Map recommendedFood = document["recommendedFood"];
+                            
+    List foodList = [];
+    List thisWeekFood = [];
+                            
+    // add the food from recommendedFood map into food list
+    recommendedFood.forEach((type, food) { 
+      foodList.add(food);
+    });
+                            
+    // make a new thisWeekFood array items
+    for (int i = 0; i < 7; i++)
+    {
+      // get a random food from the two dimensional array (foodList)
+      thisWeekFood.add(getRandomFood(foodList));
+    }
+    createFoodRec(thisWeekFood: thisWeekFood);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +111,6 @@ class _PregPageState extends State<PregPage> {
             )
           ),
 
-          
             child: SafeArea(
               child: Center(
                 child: Column(
@@ -108,7 +131,7 @@ class _PregPageState extends State<PregPage> {
                       ),
                   
                       SizedBox(height: 20),
-          
+
                       // ===================== days remained number ====================
                       Container(
                         child: FutureBuilder<DocumentSnapshot>(
@@ -167,7 +190,14 @@ class _PregPageState extends State<PregPage> {
                                   radius: 75,
                                   lineWidth: 10,
                                   percent: percentCal(estimatedDays, daysRemained),
-                                  center: Text("$daysRemained", style: TextStyle(color: Colors.pinkAccent, fontSize: 40, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                                  center: Column(
+                                    children: [
+                                      SizedBox(height: 45,),
+
+                                      Text("$daysRemained", style: TextStyle(color: Colors.pinkAccent, fontSize: 40, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                                      Text("days", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                                    ],
+                                  ),
                                   backgroundColor: Colors.white,
                                   progressColor: Colors.pinkAccent,
                                   circularStrokeCap: CircularStrokeCap.round,
@@ -181,7 +211,7 @@ class _PregPageState extends State<PregPage> {
                       
                       SizedBox(height: 50),
 
-                      // get food button
+                      //---get food button---
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -189,7 +219,7 @@ class _PregPageState extends State<PregPage> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 7,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3),
                             ),
                           ],
                         ),
@@ -197,7 +227,6 @@ class _PregPageState extends State<PregPage> {
                         // get food
                         child: GestureDetector(
                           onTap: () async {
-                      
                             //show loading circle
                             showDialog(
                               context: context, 
@@ -207,28 +236,8 @@ class _PregPageState extends State<PregPage> {
                                 );
                               }
                             );  
-                      
-                            //get current user document
-                            DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc(getUserUID()).get();
-                            // get current user specific field
-                            Map recommendedFood = document["recommendedFood"];
-                            
-                            List foodList = [];
-                            List thisWeekFood = [];
-                            
-                            // add the food from recommendedFood map into food list
-                            recommendedFood.forEach((type, food) { 
-                              foodList.add(food);
-                            });
-                            
-                            // make a new thisWeekFood array items
-                            for (int i = 0; i < 7; i++)
-                            {
-                              // get a random food from the two dimensional array (foodList)
-                              thisWeekFood.add(getRandomFood(foodList));
-                            }
-                            createFoodRec(thisWeekFood: thisWeekFood);
-                      
+                            //---get user food---
+                            getUserFood();                   
                             // pop the loading circle
                             Navigator.pop(context);
                       
@@ -255,7 +264,7 @@ class _PregPageState extends State<PregPage> {
                             ),
                             child: Center(
                               child: Text(
-                                "Get foods",
+                                "Get Foods",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -302,7 +311,14 @@ class _PregPageState extends State<PregPage> {
                                     // get current user specific field
                                     List thisWeekFood = document["thisWeekFood"];
 
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => FoodPage(index: 0, thisWeekFood: thisWeekFood)));
+                                    Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 0, thisWeekFood: thisWeekFood,),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left:15, right: 15, top: 15),
@@ -334,7 +350,15 @@ class _PregPageState extends State<PregPage> {
                                     DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
                                     // get current user specific field
                                     List thisWeekFood = document["thisWeekFood"];
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => FoodPage(index: 1, thisWeekFood: thisWeekFood,)));
+
+                                    Navigator.push(
+                                        context, 
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation1, animation2) => FoodPage(index: 1, thisWeekFood: thisWeekFood,),
+                                          transitionDuration: Duration.zero,
+                                          reverseTransitionDuration: Duration.zero,
+                                        ),
+                                      );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -365,7 +389,15 @@ class _PregPageState extends State<PregPage> {
                                     DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
                                     // get current user specific field
                                     List thisWeekFood = document["thisWeekFood"];
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => FoodPage(index: 2, thisWeekFood: thisWeekFood,)));
+                                    
+                                    Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 2, thisWeekFood: thisWeekFood,),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -396,7 +428,15 @@ class _PregPageState extends State<PregPage> {
                                     DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
                                     // get current user specific field
                                     List thisWeekFood = document["thisWeekFood"];
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => FoodPage(index: 3, thisWeekFood: thisWeekFood,)));
+                                    
+                                    Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 3, thisWeekFood: thisWeekFood,),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -427,7 +467,15 @@ class _PregPageState extends State<PregPage> {
                                     DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
                                     // get current user specific field
                                     List thisWeekFood = document["thisWeekFood"];
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => FoodPage(index: 4, thisWeekFood: thisWeekFood,)));
+                                    
+                                    Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 4, thisWeekFood: thisWeekFood,),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -458,7 +506,15 @@ class _PregPageState extends State<PregPage> {
                                     DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
                                     // get current user specific field
                                     List thisWeekFood = document["thisWeekFood"];
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => FoodPage(index: 5, thisWeekFood: thisWeekFood,)));
+
+                                    Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 5, thisWeekFood: thisWeekFood,),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -489,7 +545,15 @@ class _PregPageState extends State<PregPage> {
                                     DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
                                     // get current user specific field
                                     List thisWeekFood = document["thisWeekFood"];
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => FoodPage(index: 6, thisWeekFood: thisWeekFood,)));
+                                    
+                                    Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 6, thisWeekFood: thisWeekFood,),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),

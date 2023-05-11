@@ -7,17 +7,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
+import 'package:natal_nurture_1/pages/register_page.dart';
 import 'package:natal_nurture_1/pages/reset_password_page.dart';
 
 class LoginPage extends StatefulWidget {
-  //---register now button ontap funtion
-  final Function()? onTap;
-  const LoginPage({
-    super.key,
-    required this.onTap,
-  });
-  
-  
+  LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -35,24 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     // check if the user enter informations
     if (emailController.text.isEmpty || passwordController.text.isEmpty)
     {
-      return showDialog(
-        context: context, 
-        builder: (context) {
-          Future.delayed(Duration(seconds: 2), () {
-            Navigator.of(context).pop(true);
-          });
-          return const AlertDialog(
-            backgroundColor: Colors.pinkAccent,
-            title: Center(
-              child: Text(
-                'Please enter informations',
-                style: TextStyle(color: Colors.white),
-              ),             
-            ),
-          );         
-        },
-      );
-      
+      myMessageDialog("Please enter informations");
     }
 
     //---show loading circle---
@@ -108,8 +85,9 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
       }
-      Navigator.pop(context);
     }
+    //---pop the loading circle---
+    Navigator.pop(context);
   }
       
 
@@ -222,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context, 
                               PageRouteBuilder(
                                 pageBuilder: (context, animation1, animation2) => ResetPassPage(),
@@ -263,9 +241,20 @@ class _LoginPageState extends State<LoginPage> {
                           
                         ),
                       ),
+
                       const SizedBox(width: 8,),
+
                       GestureDetector(
-                        onTap: widget.onTap,
+                        onTap: () {
+                          Navigator.push(
+                            context, 
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) => RegisterPage(),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            ),
+                          );
+                        },
                         child: Text(
                         'Register now',
                           style: TextStyle(

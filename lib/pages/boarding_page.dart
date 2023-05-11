@@ -455,13 +455,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               }
                               else
                               {
-                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection('foods').doc("food-id").get();
-                                    Map recommendedFood = document["recFoods"];
+                                DocumentSnapshot document = await FirebaseFirestore.instance.collection('foods').doc("food-id").get();
+                                Map recommendedFood = document["recFoods"];
                                     
 
 
-                                  selectedDate = date.text;
-                                  final userUID = getUserUID();
+                                selectedDate = date.text;
+                                final userUID = getUserUID();
 
                                   // loop through every items in userAllergies list
                                   userAllergies.forEach((item) {

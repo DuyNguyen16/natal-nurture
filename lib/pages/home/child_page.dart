@@ -46,6 +46,24 @@ class ChildPage extends StatelessWidget {
       await foodDoc.set(json);
   }
 
+  getUserFood() async {
+    //get kid food breakfast recommend
+    DocumentSnapshot document = await FirebaseFirestore.instance.collection('foods').doc('kid-food-id').get();
+    // get breakfast field
+    List breakfast = document["breakfast"];
+    List lunch = document["lunch"];
+    List dinner = document["dinner"];
+                            
+    List todayFoods = [];
+                            
+    // add food to list
+    todayFoods.add(getRandomFood(breakfast));
+    todayFoods.add(getRandomFood(lunch));
+    todayFoods.add(getRandomFood(dinner));
+
+    createFoodRec(todayFoods: todayFoods);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,22 +136,8 @@ class ChildPage extends StatelessWidget {
                                 );
                               }
                             );  
-                      
-                            //get kid food breakfast recommend
-                            DocumentSnapshot document = await FirebaseFirestore.instance.collection('foods').doc('kid-food-id').get();
-                            // get breakfast field
-                            List breakfast = document["breakfast"];
-                            List lunch = document["lunch"];
-                            List dinner = document["dinner"];
-                            
-                            List todayFoods = [];
-                            
-                            // add food to list
-                            todayFoods.add(getRandomFood(breakfast));
-                            todayFoods.add(getRandomFood(lunch));
-                            todayFoods.add(getRandomFood(dinner));
-                            
-                            createFoodRec(todayFoods: (todayFoods));
+                            //---get user food function---
+                            getUserFood();
                       
                             // pop the loading circle
                             Navigator.pop(context);
@@ -205,9 +209,14 @@ class ChildPage extends StatelessWidget {
                                   DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
                                   // get today food fied
                                   List todayFoods = document["todayFoods"];
-                                  
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChildFoodPage(index: 0, todayFoods: todayFoods,)));
-                              
+                                  Navigator.push(
+                                    context, 
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation1, animation2) => ChildFoodPage(index: 0, todayFoods: todayFoods,),
+                                      transitionDuration: Duration.zero,
+                                      reverseTransitionDuration: Duration.zero,
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(left:15, right: 15, top: 15),
@@ -240,8 +249,14 @@ class ChildPage extends StatelessWidget {
                                   // get today food fied
                                   List todayFoods = document["todayFoods"];
                                   
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChildFoodPage(index: 1, todayFoods: todayFoods)));
-                                
+                                  Navigator.push(
+                                    context, 
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation1, animation2) => ChildFoodPage(index: 1, todayFoods: todayFoods,),
+                                      transitionDuration: Duration.zero,
+                                      reverseTransitionDuration: Duration.zero,
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -273,8 +288,14 @@ class ChildPage extends StatelessWidget {
                                   // get today food fied
                                   List todayFoods = document["todayFoods"];
                                   
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => ChildFoodPage(index: 2, todayFoods: todayFoods,)));
-                                
+                                  Navigator.push(
+                                    context, 
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation1, animation2) => ChildFoodPage(index: 2, todayFoods: todayFoods,),
+                                      transitionDuration: Duration.zero,
+                                      reverseTransitionDuration: Duration.zero,
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(left: 15, right: 15, top: 15),

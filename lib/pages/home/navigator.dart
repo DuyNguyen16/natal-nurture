@@ -29,7 +29,16 @@ class _NavigatorPageState extends State<NavigatorPage> {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(255, 164, 190, 1),
         actions: <Widget> [
-          IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));}, icon: Icon(Icons.settings))
+          IconButton(onPressed: () {
+            Navigator.push(
+              context, 
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => SettingsPage(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
+            );
+          }, icon: Icon(Icons.settings))
         ],
         automaticallyImplyLeading: false,
       ),

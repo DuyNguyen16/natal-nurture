@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
-import 'package:natal_nurture_1/pages/login_or_register_page.dart';
 import 'package:natal_nurture_1/pages/login_page.dart';
 
 class ResetPassPage extends StatefulWidget {
@@ -18,6 +17,9 @@ class ResetPassPage extends StatefulWidget {
 class _ResetPassPageState extends State<ResetPassPage> {
 
   final emailController = TextEditingController();
+  void resetPassword() {
+    
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +47,7 @@ class _ResetPassPageState extends State<ResetPassPage> {
                     Navigator.pushReplacement(
                       context, 
                       PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) => LoginOrRegisterPage(),
+                        pageBuilder: (context, animation1, animation2) => LoginPage(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),

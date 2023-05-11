@@ -132,7 +132,7 @@ class ChildFoodPage extends StatelessWidget {
       return "Fried rice contains chopped vegetables, which are high in fibre, vitamins, and minerals, all of which are necessary for proper bodily function.";
     }
     else if (foodName == 'Chicken salad') {
-      return "Chicken salad is rich in lean protein and a decent source of iron";
+      return "Chicken salad is rich in lean protein and a decent source of iron.";
     }
     else if (foodName == 'Egg salad') {
       return "Egg salad is good for your body as it provides a lot of proteins.";
@@ -153,10 +153,10 @@ class ChildFoodPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(255, 164, 190, 1),
         title: Text(getTodayPeriod(index), style: TextStyle(color: Colors.black),),
-        leading: Container(child:  
-          IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => NavigatorPage()));}, icon: Icon(Icons.arrow_back_rounded, color: Colors.black,), )
+        leading: const BackButton(
+          color: Colors.black,
         ),
-        automaticallyImplyLeading: false,
+        centerTitle: true,
       ),
       
       body: Stack(
@@ -215,7 +215,7 @@ class ChildFoodPage extends StatelessWidget {
                     SizedBox(height: 25,),
 
                     Container(
-                      child: Text(""),
+                      child: Text(getFoodDescription(getFoodName(todayFoods)), style: TextStyle(fontSize: 15),),
                     )
                   ]
                 ),

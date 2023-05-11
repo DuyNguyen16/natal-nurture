@@ -18,7 +18,7 @@ class _AuthPage2State extends State<AuthPage2> {
   @override
   final auth = FirebaseAuth.instance;
 
-  // fetching current user uid
+  //---fetching current user uid---
   late String userUID;
   String getUserData() {
    final user = auth.currentUser;
@@ -27,7 +27,7 @@ class _AuthPage2State extends State<AuthPage2> {
   return userUID;
   }
   
-  // function that check if the user document exist
+  //---function that check if the user document exist---
   Future<bool> documentExist(String userUID) async {
     DocumentSnapshot<Map<String, dynamic>> document = await FirebaseFirestore.instance.collection("users").doc(userUID).get();
 
