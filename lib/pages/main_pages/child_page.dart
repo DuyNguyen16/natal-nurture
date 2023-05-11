@@ -7,56 +7,52 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:natal_nurture_1/pages/Setting_page.dart';
-import 'package:natal_nurture_1/pages/food_page/child_food_page.dart';
-import 'package:natal_nurture_1/pages/food_page/women_food_page.dart';
-import 'package:natal_nurture_1/pages/home/navigator.dart';
+import 'package:natal_nurture_1/pages/food_pages/child_food_page.dart';
+
 
 
 class ChildPage extends StatelessWidget {
    ChildPage({super.key});
 
-  // Firebase initualise
+  //---Firebase initualise---
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   late String userUID;
 
-  //funtion to fet user uid from firebase  
+  //---funtion to fet user uid from firebase---
   String getUserUID() {
    final user = auth.currentUser;
    userUID = user!.uid;
    return userUID;
   }
 
-  // a funtion that return a random item in a list
+  //---a funtion that return a random item in a list---
   String getRandomFood(List foodList) {
     var random = Random().nextInt(foodList.length);
     return foodList[random];
   }
 
   Future createFoodRec({required List todayFoods}) async {
-      // reference to document on firebase
-      final foodDoc = FirebaseFirestore.instance.collection('todayFoods').doc(getUserUID());
-      // name and items to create
-      final json = {
-        'todayFoods': todayFoods,
-      };
-      await foodDoc.set(json);
+    //---reference to document on firebase---
+    final foodDoc = FirebaseFirestore.instance.collection('todayFoods').doc(getUserUID());
+    //---name and items to create---
+    final json = {
+      'todayFoods': todayFoods,
+    };
+    await foodDoc.set(json);
   }
 
   getUserFood() async {
-    //get kid food breakfast recommend
+    //---get kid food breakfast recommend---
     DocumentSnapshot document = await FirebaseFirestore.instance.collection('foods').doc('kid-food-id').get();
-    // get breakfast field
+    // ---get breakfast field---
     List breakfast = document["breakfast"];
     List lunch = document["lunch"];
     List dinner = document["dinner"];
                             
     List todayFoods = [];
                             
-    // add food to list
+    // ---add food to list---
     todayFoods.add(getRandomFood(breakfast));
     todayFoods.add(getRandomFood(lunch));
     todayFoods.add(getRandomFood(dinner));
@@ -89,7 +85,7 @@ class ChildPage extends StatelessWidget {
                       
                       SizedBox(height: 60),
 
-                      // days remained text
+                      // ---days remained text---
                       Container(
                         child: Text(
                           "Today meals",
@@ -110,7 +106,7 @@ class ChildPage extends StatelessWidget {
 
                       SizedBox(height: 67),
 
-                      // get food button
+                      // ---get food button---
                       Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -118,16 +114,16 @@ class ChildPage extends StatelessWidget {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 7,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3),
                             ),
                           ],
                         ),
 
-                        // get food button
+                        // ---get food button---
                         child: GestureDetector(
                           onTap: () async {
                       
-                            //show loading circle
+                            //---show loading circle---
                             showDialog(
                               context: context, 
                               builder: (context) {
@@ -139,10 +135,10 @@ class ChildPage extends StatelessWidget {
                             //---get user food function---
                             getUserFood();
                       
-                            // pop the loading circle
+                            // ---pop the loading circle---
                             Navigator.pop(context);
                       
-                            // show dialog that food get successfully
+                            // ---show dialog that food get successfully---
                             Flushbar(
                               margin: EdgeInsets.only(top: 5),
                               borderRadius: BorderRadius.circular(10),

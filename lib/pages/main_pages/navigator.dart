@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/pages/Setting_page.dart';
-import 'package:natal_nurture_1/pages/home/child_page.dart';
-import 'package:natal_nurture_1/pages/home/home_page.dart';
-import 'package:natal_nurture_1/pages/home/pregnant_page.dart';
+import 'package:natal_nurture_1/pages/main_pages/child_page.dart';
+import 'package:natal_nurture_1/pages/main_pages/home_page.dart';
+import 'package:natal_nurture_1/pages/main_pages/pregnant_page.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});

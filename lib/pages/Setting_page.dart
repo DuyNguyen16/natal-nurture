@@ -5,8 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
-import 'package:natal_nurture_1/pages/home/home_page.dart';
-import 'package:natal_nurture_1/pages/home/navigator.dart';
+import 'package:natal_nurture_1/pages/main_pages/home_page.dart';
+import 'package:natal_nurture_1/pages/main_pages/navigator.dart';
 import 'package:natal_nurture_1/pages/random/classes.dart';
 
 import 'auth_page.dart';

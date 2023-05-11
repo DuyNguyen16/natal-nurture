@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:natal_nurture_1/pages/home/child_page.dart';
-import 'package:natal_nurture_1/pages/home/navigator.dart';
+import 'package:natal_nurture_1/pages/main_pages/child_page.dart';
+import 'package:natal_nurture_1/pages/main_pages/navigator.dart';
 
 class ChildFoodPage extends StatelessWidget {
   const ChildFoodPage({super.key, required this.index, required this.todayFoods});

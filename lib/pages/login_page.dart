@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -90,7 +90,6 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.pop(context);
   }
       
-
     //---message function---
   void myMessageDialog(String message) {
     showDialog(

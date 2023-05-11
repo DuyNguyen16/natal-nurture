@@ -10,8 +10,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:natal_nurture_1/pages/random/classes.dart';
-import 'package:natal_nurture_1/pages/food_page/women_food_page.dart';
-import 'package:natal_nurture_1/pages/home/child_page.dart';
+import 'package:natal_nurture_1/pages/food_pages/women_food_page.dart';
+import 'package:natal_nurture_1/pages/main_pages/child_page.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 
@@ -23,25 +23,17 @@ class PregPage extends StatefulWidget {
 }
 
 class _PregPageState extends State<PregPage> {
-  // index of the current page
-  int currentIndex = 0;
-  // pages bottom navigator
-  List pages = [
-    PregPage(),
-    ChildPage(),
-  ];
-
-  // Firebase initualise
+  //---Firebase initualise---
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String userUID;
   
-  // function that calculate the percentage of the days remained
+  //---function that calculate the percentage of the days remained---
   double percentCal(int totalDays, int day) {
     double percent = 1 - (day/totalDays);
     return percent;
   }
 
-  //funtion to fet user uid from firebase  
+  //---funtion to fet user uid from firebase--- 
   String getUserUID() {
    final user = auth.currentUser;
    
@@ -49,21 +41,21 @@ class _PregPageState extends State<PregPage> {
    return userUID;
   }
 
-  // a funtion that return a random item in a list
+  //---a funtion that return a random item in a list---
   String getRandomFood(List foodList) {
     var random = Random().nextInt(foodList.length);
     var random2 = Random().nextInt(foodList[random].length);
     return foodList[random][random2];
   }
 
-  // declearing user from users collection
+  // ---declearing user from users collection---
   CollectionReference user = FirebaseFirestore.instance.collection('users');
 
-  // create food rec field
+  // ---create food rec field---
   Future createFoodRec({required List thisWeekFood}) async {
-      // reference to document on firebase
+      //---reference to document on firebase---
       final foodDoc = FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID());
-      // name and items to create
+      //---name and items to create---
       final json = {
         'thisWeekFood': thisWeekFood,
       };
@@ -72,23 +64,23 @@ class _PregPageState extends State<PregPage> {
 
   //---funtion to create user random foods and add it to database---
   getUserFood() async {
-    //get current user document
+    //---get current user document---
     DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc(getUserUID()).get();
-    // get current user specific field
+    //---get current user specific field---
     Map recommendedFood = document["recommendedFood"];
                             
     List foodList = [];
     List thisWeekFood = [];
                             
-    // add the food from recommendedFood map into food list
+    //---add the food from recommendedFood map into food list---
     recommendedFood.forEach((type, food) { 
       foodList.add(food);
     });
                             
-    // make a new thisWeekFood array items
+    //---make a new thisWeekFood array items---
     for (int i = 0; i < 7; i++)
     {
-      // get a random food from the two dimensional array (foodList)
+      //---get a random food from the two dimensional array (foodList)---
       thisWeekFood.add(getRandomFood(foodList));
     }
     createFoodRec(thisWeekFood: thisWeekFood);
