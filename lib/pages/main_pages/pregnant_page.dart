@@ -47,12 +47,13 @@ class _PregPageState extends State<PregPage> {
     var random2 = Random().nextInt(foodList[random].length);
     return foodList[random][random2];
   }
+  
 
   // ---declearing user from users collection---
   CollectionReference user = FirebaseFirestore.instance.collection('users');
 
   // ---create food rec field---
-  Future createFoodRec({required List thisWeekFood}) async {
+  Future createThisWeekFood({required List thisWeekFood}) async {
       //---reference to document on firebase---
       final foodDoc = FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID());
       //---name and items to create---
@@ -71,6 +72,7 @@ class _PregPageState extends State<PregPage> {
                             
     List foodList = [];
     List thisWeekFood = [];
+    int count = 0;
                             
     //---add the food from recommendedFood map into food list---
     recommendedFood.forEach((type, food) { 
@@ -78,12 +80,33 @@ class _PregPageState extends State<PregPage> {
     });
                             
     //---make a new thisWeekFood array items---
-    for (int i = 0; i < 7; i++)
+    while (count < 7)
     {
       //---get a random food from the two dimensional array (foodList)---
-      thisWeekFood.add(getRandomFood(foodList));
+      String randomFood = getRandomFood(foodList);
+      //---add random food to thisWeekFood List---
+      thisWeekFood.add(randomFood);
+      count++;
     }
-    createFoodRec(thisWeekFood: thisWeekFood);
+    createThisWeekFood(thisWeekFood: thisWeekFood);
+  }
+
+  //---function to calculate how many days left---
+  int daysLeftCal(int userDay, int userMonth, int userYear, int currentDay, int currentMonth, int currentYear) {
+    // ---converting string  (day,month,year into int in order to do calculation)---
+    var estimatedDays = 280;
+    int daysRemained = 0;
+    // ---check if current year is the same as user selected year---
+    if (userYear < currentYear) {
+      // ---calculation to get days remained---
+      daysRemained = estimatedDays - ((30 - userDay) + (currentDay) + ((12 - userMonth) * 30) + (currentMonth * 30));
+    }
+    else{
+      // ---calculation to get days remained---
+      daysRemained = estimatedDays - ((currentDay - userDay) + ((currentMonth - userMonth) * 30));      
+    }
+
+    return daysRemained;
   }
 
   @override
@@ -139,49 +162,37 @@ class _PregPageState extends State<PregPage> {
                               String conceptionDate = data['Date'];
                               // remove symbol from string to get the numbers only
                               var dateList = conceptionDate.split('-'); 
-                              // converting string  (day,month,year into int in order to do calculation)
-                              var estimatedDays = 270;
+
                               // get user day of conception
                               var userDay = int.parse(dateList[0]);
                               // get user month of conception
                               var userMonth = int.parse(dateList[1]);
                               // get user year of conception
                               var userYear = int.parse(dateList[2]);
+
                               // get the current date
-                              var dateNow = DateTime.now();
-                              // year formatting
-                              var yearFormatter = DateFormat("yyyy");
+                              var currentDate = DateTime.now();
+                              var formatterDay =  DateFormat('dd');
+                              var formatterMonth = DateFormat('MM');
+                              var formatterYear = DateFormat("yyyy");
+
+                              // get the current day
+                              var currentDay = int.parse(formatterDay.format(currentDate));
+
+                              // get the current month 
+                              var currentMonth = int.parse(formatterMonth.format(currentDate));
+                              
                               // current year 
-                              int currrentYear = int.parse(yearFormatter.format(dateNow));
+                              var currentYear = int.parse(formatterYear.format(currentDate));
                   
-                              int daysRemained;
-                  
-                              if (userYear < currrentYear)
-                              {
-                                // get the current month
-                                var formatter = DateFormat('MM');
-                                int currentMonth = int.parse(formatter.format(dateNow));
-                  
-                                // calculation to get days remained
-                                daysRemained = estimatedDays - ((userDay) + ((12 - userMonth) * 30) + (currentMonth * 30));
-                              }
-                              else{
-                                // get the current month
-                                var formatter =  DateFormat('MM');
-                                int currentMonth = int.parse(formatter.format(dateNow));
-          
-                                // get the current day
-                                var formatters =  DateFormat('dd');
-                                int currentDay = int.parse(formatters.format(dateNow));
-                  
-                                // calculation to get days remained
-                                daysRemained = estimatedDays - ((currentDay - userDay) + ((currentMonth - userMonth) * 30));      
-                              }
+                              int daysRemained = daysLeftCal(userDay, userMonth, userYear, currentDay, currentMonth, currentYear)    ;
+                              
+                              
                               return Center(
                                 child: CircularPercentIndicator(
                                   radius: 75,
                                   lineWidth: 10,
-                                  percent: percentCal(estimatedDays, daysRemained),
+                                  percent: percentCal(280, daysRemained),
                                   center: Column(
                                     children: [
                                       SizedBox(height: 45,),

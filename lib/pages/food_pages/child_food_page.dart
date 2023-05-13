@@ -40,7 +40,7 @@ class ChildFoodPage extends StatelessWidget {
       return "images/food_images/pancakes.png";
     }
     else if (foodName == 'Brunch style eggs') {
-      return "images/food_images/brunch_style_eggs.png";
+      return "images/food_images/brunch_style_egg.png";
     }
     else if (foodName == 'Smoothie') {
       return "images/food_images/snoothie.png";

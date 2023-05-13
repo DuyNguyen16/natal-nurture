@@ -27,12 +27,12 @@ class ChildPage extends StatelessWidget {
   }
 
   //---a funtion that return a random item in a list---
-  String getRandomFood(List foodList) {
+  String getRandomFoodChildren(List foodList) {
     var random = Random().nextInt(foodList.length);
     return foodList[random];
   }
 
-  Future createFoodRec({required List todayFoods}) async {
+  Future createTodayFood({required List todayFoods}) async {
     //---reference to document on firebase---
     final foodDoc = FirebaseFirestore.instance.collection('todayFoods').doc(getUserUID());
     //---name and items to create---
@@ -42,7 +42,7 @@ class ChildPage extends StatelessWidget {
     await foodDoc.set(json);
   }
 
-  getUserFood() async {
+  getUserFoodChildren() async {
     //---get kid food breakfast recommend---
     DocumentSnapshot document = await FirebaseFirestore.instance.collection('foods').doc('kid-food-id').get();
     // ---get breakfast field---
@@ -53,11 +53,11 @@ class ChildPage extends StatelessWidget {
     List todayFoods = [];
                             
     // ---add food to list---
-    todayFoods.add(getRandomFood(breakfast));
-    todayFoods.add(getRandomFood(lunch));
-    todayFoods.add(getRandomFood(dinner));
+    todayFoods.add(getRandomFoodChildren(breakfast));
+    todayFoods.add(getRandomFoodChildren(lunch));
+    todayFoods.add(getRandomFoodChildren(dinner));
 
-    createFoodRec(todayFoods: todayFoods);
+    createTodayFood(todayFoods: todayFoods);
   }
 
   @override
@@ -133,7 +133,7 @@ class ChildPage extends StatelessWidget {
                               }
                             );  
                             //---get user food function---
-                            getUserFood();
+                            getUserFoodChildren();
                       
                             // ---pop the loading circle---
                             Navigator.pop(context);

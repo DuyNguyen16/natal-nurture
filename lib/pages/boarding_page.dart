@@ -247,18 +247,53 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 ),
                               ),
                               onTap: () async {
-                                DateTime? pickeddate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(), 
-                                  firstDate: DateTime(2022, ), 
-                                  lastDate: DateTime.now());
+                                //---get the current date---
+                                var currentDate = DateTime.now();
+                                var formatterDay =  DateFormat('dd');
+                                var formatterMonth = DateFormat('MM');
+                                var formatterYear = DateFormat("yyyy");
+
+                                //---get the current day---
+                                var currentDay = int.parse(formatterDay.format(currentDate));
+
+                                //---get the current month---
+                                var currentMonth = int.parse(formatterMonth.format(currentDate));
+                                
+                                //---current year--- 
+                                var currentYear = int.parse(formatterYear.format(currentDate));
+
+                                var minMonth = (12 - (8 - currentMonth)); 
+                                var minDay = ((30 - (30 - currentDay)) - 10);
+                                if (currentMonth > 8 && currentDay > 10) {
+                                  //---date picker api---
+                                  DateTime? pickeddate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(), 
+                                    firstDate: DateTime(currentYear, (currentMonth - 9), minDay + 6), 
+                                    lastDate: DateTime.now()
+                                  );
+
+                                  if (pickeddate != null) {
+                                    setState(() {
+                                      date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
+                                    });
+                                  }    
+                                }
+                                else {
+                                  //---date picker api---
+                                  DateTime? pickeddate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(), 
+                                    firstDate: DateTime(2022, minMonth, minDay), 
+                                    lastDate: DateTime.now()
+                                  );
 
                                   if (pickeddate != null) {
                                     setState(() {
                                       date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
                                     });
                                   }
-                                
+                                }
                               },
                             ),
                           ),
