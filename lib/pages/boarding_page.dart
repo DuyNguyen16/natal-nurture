@@ -75,8 +75,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   //funtion to fetch user id from firebase  
   String getUserUID() {
-   final user = auth.currentUser;
-   
+   final user = auth.currentUser; 
    userUID = user!.uid;
    return userUID;
   }
