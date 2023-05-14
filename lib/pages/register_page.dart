@@ -18,23 +18,13 @@ class _RegisterPageState extends State<RegisterPage> {
   final userEmail = TextEditingController();
   final userPassword = TextEditingController();
   final userPasswordConfirm = TextEditingController();
-  late String userUID;
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  
-  //---funtion to fetch user UID from firebase---
-  String getUserUID() {
-    //---get current user---
-   final user = auth.currentUser;
-   userUID = user!.uid;
-   return userUID;
-  }
 
   //---Sign user up function (Email and Password Method)---
   void signUserUp() async {
    // ---check if the user enter informations---
     if (userEmail.text.isEmpty || userPassword.text.isEmpty|| userPasswordConfirm.text.isEmpty)
     {
-      myMessageDialog('Please enter informations');
+      return myMessageDialog('Please enter informations');
     }
 
     //---try creating user account---
@@ -44,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
       //---check length of password---
       if ((userPassword.text).length < 6)
       {
-        myMessageDialog('Password should be at least 6 characters');
+        return myMessageDialog('Password should be at least 6 characters');
       }
       //---check if passwords match---
       if (userPasswordConfirm.text == userPassword.text) 
@@ -61,15 +51,17 @@ class _RegisterPageState extends State<RegisterPage> {
         //---pop the loading circle---
           Navigator.pop(context);
           //show error to user
-          return myMessageDialog("Email already in use");
+          
+            return myMessageDialog("Email already in use");
+          
         }
       } 
       else {
-        myMessageDialog('Password do not match');
+        return myMessageDialog('Password do not match');
       }
     } 
     else {
-      myMessageDialog('Invalid Email');
+      return myMessageDialog('Invalid Email');
     }
   }
 

@@ -20,11 +20,11 @@ class ResetPassPage extends StatefulWidget {
 }
 
 class _ResetPassPageState extends State<ResetPassPage> {
-  final emailController = TextEditingController();
+  final userEmail = TextEditingController();
 
   Future resetPassword() async {
     try{
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail.text.trim());
     } on FirebaseAuthException catch (exception) {
       print(exception);
 
@@ -88,7 +88,7 @@ class _ResetPassPageState extends State<ResetPassPage> {
                 SizedBox(height: 30,),
 
                 MyTextField(
-                  controller: emailController, 
+                  controller: userEmail, 
                   hintText: "email", obsecureText: false
                   , icon: Icon(Icons.email)
                 ),

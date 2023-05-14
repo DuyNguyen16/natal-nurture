@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     // check if the user enter informations
     if (userEmail.text.isEmpty || userPassword.text.isEmpty)
     {
-      myMessageDialog("Please enter informations");
+      return myMessageDialog("Please enter informations");
     }
 
     //---show loading circle---

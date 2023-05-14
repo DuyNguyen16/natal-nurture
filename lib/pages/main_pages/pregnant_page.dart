@@ -1,19 +1,17 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
-
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:natal_nurture_1/pages/random/classes.dart';
+import 'package:natal_nurture_1/components/reusableData.dart';
 import 'package:natal_nurture_1/pages/food_pages/women_food_page.dart';
-import 'package:natal_nurture_1/pages/main_pages/child_page.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+//---called in reusableData class to access to reusable data types---
+reusableData data = reusableData();
 
 class PregPage extends StatefulWidget {
   const PregPage({super.key});
@@ -23,22 +21,10 @@ class PregPage extends StatefulWidget {
 }
 
 class _PregPageState extends State<PregPage> {
-  //---Firebase initualise---
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  late String userUID;
-  
   //---function that calculate the percentage of the days remained---
   double percentCal(int totalDays, int day) {
     double percent = 1 - (day/totalDays);
     return percent;
-  }
-
-  //---funtion to fet user uid from firebase--- 
-  String getUserUID() {
-   final user = auth.currentUser;
-   
-   userUID = user!.uid;
-   return userUID;
   }
 
   //---a funtion that return a random item in a list---
@@ -75,7 +61,7 @@ class _PregPageState extends State<PregPage> {
   // ---create food rec field---
   Future createThisWeekFood({required List thisWeekFood}) async {
       //---reference to document on firebase---
-      final foodDoc = FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID());
+      final foodDoc = FirebaseFirestore.instance.collection('currentWeekFoods').doc(data.userUID);
       //---name and items to create---
       final json = {
         'thisWeekFood': thisWeekFood,
@@ -86,7 +72,7 @@ class _PregPageState extends State<PregPage> {
   //---funtion to create user random foods and add it to database---
   getUserFood() async {
     //---get current user document---
-    DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc(getUserUID()).get();
+    DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc(data.userUID).get();
     //---get current user specific field---
     Map recommendedFood = document["recommendedFood"];
                             
@@ -131,7 +117,7 @@ class _PregPageState extends State<PregPage> {
   //---update status function---
   void updateStatus() async {
     //---update data---
-    FirebaseFirestore.instance.collection('users').doc(getUserUID()).update({
+    FirebaseFirestore.instance.collection('users').doc(data.userUID).update({
       "w_check" : true,
     });
   }
@@ -177,17 +163,17 @@ class _PregPageState extends State<PregPage> {
                         child: FutureBuilder<DocumentSnapshot>(
                           
                           //Fetching data from the documentId specified of the
-                          future: user.doc(getUserUID()).get(),
+                          future: user.doc(data.userUID).get(),
                           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) 
                           {
                             //Data is output to the user
                             if (snapshot.connectionState == ConnectionState.done) 
                             {
+                              
                               Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-                              String conceptionDate = data['Date'];
+                              String conceptionDate = data['conceptionDate'];
                               // remove symbol from string to get the numbers only
                               var dateList = conceptionDate.split('-'); 
-
                               // get user day of conception
                               var userDay = int.parse(dateList[0]);
                               // get user month of conception
@@ -335,14 +321,14 @@ class _PregPageState extends State<PregPage> {
                                 // ================ MONDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(data.userUID).get();
                                     if (!userDocument["w_check"])
                                     {
                                       getFoodMessage();
                                     }    
                                     else {                               
                                       //get current user document
-                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(data.userUID).get();
                                       
                                       // get current user specific field
                                       List thisWeekFood = document["thisWeekFood"];
@@ -382,14 +368,14 @@ class _PregPageState extends State<PregPage> {
                                 // ================ TUESDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(data.userUID).get();
                                     if (!userDocument["w_check"])
                                     {
                                       getFoodMessage();
                                     }    
                                     else {                               
                                       //get current user document
-                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(data.userUID).get();
                                       
                                       // get current user specific field
                                       List thisWeekFood = document["thisWeekFood"];
@@ -428,14 +414,14 @@ class _PregPageState extends State<PregPage> {
                                 // ================ WEDNESDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(data.userUID).get();
                                     if (!userDocument["w_check"])
                                     {
                                       getFoodMessage();
                                     }    
                                     else {                               
                                       //get current user document
-                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(data.userUID).get();
                                       
                                       // get current user specific field
                                       List thisWeekFood = document["thisWeekFood"];
@@ -474,14 +460,14 @@ class _PregPageState extends State<PregPage> {
                                 // ================ THURSDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(data.userUID).get();
                                     if (!userDocument["w_check"])
                                     {
                                       getFoodMessage();
                                     }    
                                     else {                               
                                       //get current user document
-                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(data.userUID).get();
                                       
                                       // get current user specific field
                                       List thisWeekFood = document["thisWeekFood"];
@@ -520,14 +506,14 @@ class _PregPageState extends State<PregPage> {
                                 // ================ FRIDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(data.userUID).get();
                                     if (!userDocument["w_check"])
                                     {
                                       getFoodMessage();
                                     }    
                                     else {                               
                                       //get current user document
-                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(data.userUID).get();
                                       
                                       // get current user specific field
                                       List thisWeekFood = document["thisWeekFood"];
@@ -566,14 +552,14 @@ class _PregPageState extends State<PregPage> {
                                 // ================ SATURDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(data.userUID).get();
                                     if (!userDocument["w_check"])
                                     {
                                       getFoodMessage();
                                     }    
                                     else {                               
                                       //get current user document
-                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(data.userUID).get();
                                       
                                       // get current user specific field
                                       List thisWeekFood = document["thisWeekFood"];
@@ -612,14 +598,14 @@ class _PregPageState extends State<PregPage> {
                                 // ================ SUNDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(data.userUID).get();
                                     if (!userDocument["w_check"])
                                     {
                                       getFoodMessage();
                                     }    
                                     else {                               
                                       //get current user document
-                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(data.userUID).get();
                                       
                                       // get current user specific field
                                       List thisWeekFood = document["thisWeekFood"];

@@ -9,20 +9,17 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 
-
-
-
 // multiple selecting allergies class
-class MultiSelect extends StatefulWidget {
+class MyMultiSelect extends StatefulWidget {
 
   final List<String> allergies;
-  const MultiSelect({Key? key, required this.allergies}) : super(key: key);
+  const MyMultiSelect({Key? key, required this.allergies}) : super(key: key);
 
   @override
-  State<MultiSelect> createState() => _MultiSelectState();
+  State<MyMultiSelect> createState() => _MyMultiSelectState();
 }
 
-class _MultiSelectState extends State<MultiSelect> {
+class _MyMultiSelectState extends State<MyMultiSelect> {
   final List<String> userAllergies = [];
 
   void allergiesChange(String allergieValue, bool isSelected)

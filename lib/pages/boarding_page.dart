@@ -5,10 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
-import 'package:natal_nurture_1/pages/random/classes.dart';
+import 'package:natal_nurture_1/components/my_multi_select.dart';
+import 'package:natal_nurture_1/components/reusableData.dart';
 import 'package:natal_nurture_1/pages/main_pages/navigator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+//---called in reusableData class to access to reusable data types---
+reusableData data = reusableData();
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -18,14 +21,10 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-  //---firebase auth---
-  final FirebaseAuth auth = FirebaseAuth.instance;
   //---page controller---
   final page_controller = PageController();
   //---text editing controller to get data from input textfield---
   final controller = TextEditingController();
-  //---user id---
-  late String userUID;
 
   //---declare conceptiondate variable---
   late String conceptionDate;
@@ -51,7 +50,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     final List<String>? results = await showDialog(
       context: context, 
       builder: (BuildContext context) {
-        return MultiSelect(allergies: allergies);
+        return MyMultiSelect(allergies: allergies);
       }
     );
 
@@ -72,18 +71,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     });
     return foodRecommendation;
   }
-
-  //funtion to fetch user id from firebase  
-  String getUserUID() {
-   final user = auth.currentUser; 
-   userUID = user!.uid;
-   return userUID;
-  }
   
   //---function to create new user and save user data on Firebase---
   Future createUser({required String selectedDate, required String userUID, required List userAllergies, required Map recommendedFood}) async {
       // reference to document on firebase
-      final userDoc = FirebaseFirestore.instance.collection('users').doc(getUserUID());
+      final userDoc = FirebaseFirestore.instance.collection('users').doc(data.userUID);
       // name and items to create
       final json = {
         'UserUID': userUID,
@@ -114,8 +106,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       },
     );
   }
-  // date controller
-  TextEditingController date = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -252,7 +242,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             width: 330,
                             child: TextField(
                               
-                              controller: date,
+                              controller: data.date,
                               decoration: InputDecoration(
                                 enabledBorder:  const OutlineInputBorder(
                                 borderSide: BorderSide(color: Color.fromARGB(255, 225, 107, 107))
@@ -295,7 +285,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
                                   if (pickeddate != null) {
                                     setState(() {
-                                      date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
+                                      data.date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
                                     });
                                   }    
                                 }
@@ -310,7 +300,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
                                   if (pickeddate != null) {
                                     setState(() {
-                                      date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
+                                      data.date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
                                     });
                                   }
                                 }
@@ -513,7 +503,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             onTap: () async{
                               
                               // check if user select date of conception
-                              if (date.text == "")
+                              if (data.date.text == "")
                               {
                                   enterConceptionDateMessage();
                                   page_controller.jumpToPage(1);
@@ -525,8 +515,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 Map recommendedFood = removeAllergies(document["recFoods"], userAllergies);
                                 
                                 //---Date of conception---
-                                conceptionDate = date.text;
-                                final userUID = getUserUID();
+                                conceptionDate = data.date.text;
+                                final userUID = data.userUID;
 
                                   createUser(selectedDate: conceptionDate, userUID: userUID, userAllergies: userAllergies, recommendedFood: recommendedFood); 
                                   Navigator.push(
@@ -566,8 +556,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
       ),
     );
-
-    
   }
 }
 

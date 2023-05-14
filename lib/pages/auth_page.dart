@@ -10,15 +10,6 @@ class AuthPage extends StatelessWidget {
   AuthPage({super.key});
   final auth = FirebaseAuth.instance;
 
-  late String userUID;
-  String getUserData() {
-   final user = auth.currentUser;
-   
-   userUID = user!.uid;
-  return userUID;
-  }
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

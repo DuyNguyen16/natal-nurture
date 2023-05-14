@@ -5,9 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
-import 'package:natal_nurture_1/pages/random/classes.dart';
-
+import 'package:natal_nurture_1/components/my_multi_select.dart';
+import 'package:natal_nurture_1/components/reusableData.dart';
 import 'auth_page.dart';
+
+//---called in reusableData class to access to reusable data types---
+reusableData data = reusableData();
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({super.key});
@@ -17,16 +20,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final user = FirebaseAuth.instance.currentUser!;
-  late String userUID;
-  //---funtion to fet user uid from firebase---
-  String getUserUID() {
-   final user = auth.currentUser;
-   
-   userUID = user!.uid;
-   return userUID;
-  }
 
   //---function to remove user allergies from food recommendation list---
   removeAllergies(Map foodRecommendation, List userAllergies) {
@@ -43,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
     DocumentSnapshot foodDocument = await FirebaseFirestore.instance.collection('foods').doc("food-id").get();
     Map recommendedFood = removeAllergies(foodDocument["recFoods"], userAllergies);
     //---update data---
-    FirebaseFirestore.instance.collection('users').doc(getUserUID()).update({
+    FirebaseFirestore.instance.collection('users').doc(data.userUID).update({
       "userAllergies" : userAllergies,
       "recommendedFood" : recommendedFood,
     });
@@ -71,7 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final List<String>? results = await showDialog(
       context: context, 
       builder: (BuildContext context) {
-        return MultiSelect(allergies: allergies);
+        return MyMultiSelect(allergies: allergies);
       }
     );
 
