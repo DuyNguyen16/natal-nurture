@@ -11,9 +11,14 @@ import 'package:natal_nurture_1/pages/food_pages/child_food_page.dart';
 
 
 
-class ChildPage extends StatelessWidget {
+class ChildPage extends StatefulWidget {
    ChildPage({super.key});
 
+  @override
+  State<ChildPage> createState() => _ChildPageState();
+}
+
+class _ChildPageState extends State<ChildPage> {
   //---Firebase initualise---
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -24,6 +29,27 @@ class ChildPage extends StatelessWidget {
    final user = auth.currentUser;
    userUID = user!.uid;
    return userUID;
+  }
+
+  void getFoodMessage() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.of(context).pop(true);
+        });
+        //---Alert user---
+        return  AlertDialog(
+          backgroundColor: Colors.pinkAccent,
+          title: Center(
+            child: Text(
+              'Please press "Get Foods", to get today foods',
+              style: TextStyle(color: Colors.white), textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   //---a funtion that return a random item in a list---
@@ -58,6 +84,14 @@ class ChildPage extends StatelessWidget {
     todayFoods.add(getRandomFoodChildren(dinner));
 
     createTodayFood(todayFoods: todayFoods);
+  }
+
+  //---update status function---
+  void updateStatus() async {
+    //---update data---
+    FirebaseFirestore.instance.collection('users').doc(getUserUID()).update({
+      "c_check" : true,
+    });
   }
 
   @override
@@ -134,6 +168,8 @@ class ChildPage extends StatelessWidget {
                             );  
                             //---get user food function---
                             getUserFoodChildren();
+                            //---update status got food---
+                            updateStatus();
                       
                             // ---pop the loading circle---
                             Navigator.pop(context);
@@ -201,18 +237,25 @@ class ChildPage extends StatelessWidget {
                               // ================ BREAKFAST BUTTON ===============
                               GestureDetector(
                                 onTap: () async {
-                                  //get current food documebt
-                                  DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
-                                  // get today food fied
-                                  List todayFoods = document["todayFoods"];
-                                  Navigator.push(
-                                    context, 
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation1, animation2) => ChildFoodPage(index: 0, todayFoods: todayFoods,),
-                                      transitionDuration: Duration.zero,
-                                      reverseTransitionDuration: Duration.zero,
-                                    ),
-                                  );
+                                  DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                  if (!userDocument["c_check"])
+                                  {
+                                    getFoodMessage();
+                                  }
+                                  else {
+                                    //get current food documebt
+                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
+                                    // get today food fied
+                                    List todayFoods = document["todayFoods"];
+                                    Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => ChildFoodPage(index: 0, todayFoods: todayFoods,),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(left:15, right: 15, top: 15),
@@ -240,19 +283,25 @@ class ChildPage extends StatelessWidget {
                               // ================ LUNCH BUTTON ===============
                               GestureDetector(
                                 onTap: () async {
-                                //get current food documebt
-                                  DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
-                                  // get today food fied
-                                  List todayFoods = document["todayFoods"];
-                                  
-                                  Navigator.push(
-                                    context, 
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation1, animation2) => ChildFoodPage(index: 1, todayFoods: todayFoods,),
-                                      transitionDuration: Duration.zero,
-                                      reverseTransitionDuration: Duration.zero,
-                                    ),
-                                  );
+                                  DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                  if (!userDocument["c_check"])
+                                  {
+                                    getFoodMessage();
+                                  }
+                                  else {
+                                    //get current food documebt
+                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
+                                    // get today food fied
+                                    List todayFoods = document["todayFoods"];
+                                    Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => ChildFoodPage(index: 1, todayFoods: todayFoods,),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -279,19 +328,25 @@ class ChildPage extends StatelessWidget {
                               // ================ DINNER BUTTON ===============
                               GestureDetector(
                                 onTap: () async {
-                                //get current food documebt
-                                  DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
-                                  // get today food fied
-                                  List todayFoods = document["todayFoods"];
-                                  
-                                  Navigator.push(
-                                    context, 
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation1, animation2) => ChildFoodPage(index: 2, todayFoods: todayFoods,),
-                                      transitionDuration: Duration.zero,
-                                      reverseTransitionDuration: Duration.zero,
-                                    ),
-                                  );
+                                  DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                  if (!userDocument["c_check"])
+                                  {
+                                    getFoodMessage();
+                                  }
+                                  else {
+                                    //get current food documebt
+                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection("todayFoods").doc(getUserUID()).get();
+                                    // get today food fied
+                                    List todayFoods = document["todayFoods"];
+                                    Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => ChildFoodPage(index: 2, todayFoods: todayFoods,),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(left: 15, right: 15, top: 15),

@@ -48,6 +48,26 @@ class _PregPageState extends State<PregPage> {
     return foodList[random][random2];
   }
   
+  void getFoodMessage() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.of(context).pop(true);
+        });
+        //---Alert user---
+        return  AlertDialog(
+          backgroundColor: Colors.pinkAccent,
+          title: Center(
+            child: Text(
+              'Please press "Get Foods", to get today foods',
+              style: TextStyle(color: Colors.white), textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   // ---declearing user from users collection---
   CollectionReference user = FirebaseFirestore.instance.collection('users');
@@ -105,16 +125,21 @@ class _PregPageState extends State<PregPage> {
       // ---calculation to get days remained---
       daysRemained = estimatedDays - ((currentDay - userDay) + ((currentMonth - userMonth) * 30));      
     }
-
     return daysRemained;
+  }
+
+  //---update status function---
+  void updateStatus() async {
+    //---update data---
+    FirebaseFirestore.instance.collection('users').doc(getUserUID()).update({
+      "w_check" : true,
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
         backgroundColor: Colors.transparent,
-          
         body: Container(
           //---Background Image---
           decoration: BoxDecoration(
@@ -240,7 +265,9 @@ class _PregPageState extends State<PregPage> {
                               }
                             );  
                             //---get user food---
-                            getUserFood();                   
+                            getUserFood();       
+                            updateStatus();
+                                        
                             // pop the loading circle
                             Navigator.pop(context);
                       
@@ -300,7 +327,7 @@ class _PregPageState extends State<PregPage> {
                         ),
                         // ==================== BUTTONS =========================
                         child: Scrollbar(
-                          
+                          isAlwaysShown: true,
                           child: SingleChildScrollView(
                             scrollDirection: Axis.vertical,
                             child: Column(
@@ -308,20 +335,26 @@ class _PregPageState extends State<PregPage> {
                                 // ================ MONDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    //get current user document
-                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
-                                    
-                                    // get current user specific field
-                                    List thisWeekFood = document["thisWeekFood"];
-
-                                    Navigator.push(
-                                      context, 
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 0, thisWeekFood: thisWeekFood,),
-                                        transitionDuration: Duration.zero,
-                                        reverseTransitionDuration: Duration.zero,
-                                      ),
-                                    );
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    if (!userDocument["w_check"])
+                                    {
+                                      getFoodMessage();
+                                    }    
+                                    else {                               
+                                      //get current user document
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      
+                                      // get current user specific field
+                                      List thisWeekFood = document["thisWeekFood"];
+                                      Navigator.push(
+                                        context, 
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation1, animation2) => FoodPage(index: 0, thisWeekFood: thisWeekFood,),
+                                          transitionDuration: Duration.zero,
+                                          reverseTransitionDuration: Duration.zero,
+                                        ),
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left:15, right: 15, top: 15),
@@ -349,12 +382,18 @@ class _PregPageState extends State<PregPage> {
                                 // ================ TUESDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    //get current user document
-                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
-                                    // get current user specific field
-                                    List thisWeekFood = document["thisWeekFood"];
-
-                                    Navigator.push(
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    if (!userDocument["w_check"])
+                                    {
+                                      getFoodMessage();
+                                    }    
+                                    else {                               
+                                      //get current user document
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      
+                                      // get current user specific field
+                                      List thisWeekFood = document["thisWeekFood"];
+                                      Navigator.push(
                                         context, 
                                         PageRouteBuilder(
                                           pageBuilder: (context, animation1, animation2) => FoodPage(index: 1, thisWeekFood: thisWeekFood,),
@@ -362,6 +401,7 @@ class _PregPageState extends State<PregPage> {
                                           reverseTransitionDuration: Duration.zero,
                                         ),
                                       );
+                                    }
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -388,19 +428,26 @@ class _PregPageState extends State<PregPage> {
                                 // ================ WEDNESDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    //get current user document
-                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
-                                    // get current user specific field
-                                    List thisWeekFood = document["thisWeekFood"];
-                                    
-                                    Navigator.push(
-                                      context, 
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 2, thisWeekFood: thisWeekFood,),
-                                        transitionDuration: Duration.zero,
-                                        reverseTransitionDuration: Duration.zero,
-                                      ),
-                                    );
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    if (!userDocument["w_check"])
+                                    {
+                                      getFoodMessage();
+                                    }    
+                                    else {                               
+                                      //get current user document
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      
+                                      // get current user specific field
+                                      List thisWeekFood = document["thisWeekFood"];
+                                      Navigator.push(
+                                        context, 
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation1, animation2) => FoodPage(index: 2, thisWeekFood: thisWeekFood,),
+                                          transitionDuration: Duration.zero,
+                                          reverseTransitionDuration: Duration.zero,
+                                        ),
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -427,19 +474,26 @@ class _PregPageState extends State<PregPage> {
                                 // ================ THURSDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    //get current user document
-                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
-                                    // get current user specific field
-                                    List thisWeekFood = document["thisWeekFood"];
-                                    
-                                    Navigator.push(
-                                      context, 
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 3, thisWeekFood: thisWeekFood,),
-                                        transitionDuration: Duration.zero,
-                                        reverseTransitionDuration: Duration.zero,
-                                      ),
-                                    );
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    if (!userDocument["w_check"])
+                                    {
+                                      getFoodMessage();
+                                    }    
+                                    else {                               
+                                      //get current user document
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      
+                                      // get current user specific field
+                                      List thisWeekFood = document["thisWeekFood"];
+                                      Navigator.push(
+                                        context, 
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation1, animation2) => FoodPage(index: 3, thisWeekFood: thisWeekFood,),
+                                          transitionDuration: Duration.zero,
+                                          reverseTransitionDuration: Duration.zero,
+                                        ),
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -466,19 +520,26 @@ class _PregPageState extends State<PregPage> {
                                 // ================ FRIDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    //get current user document
-                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
-                                    // get current user specific field
-                                    List thisWeekFood = document["thisWeekFood"];
-                                    
-                                    Navigator.push(
-                                      context, 
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 4, thisWeekFood: thisWeekFood,),
-                                        transitionDuration: Duration.zero,
-                                        reverseTransitionDuration: Duration.zero,
-                                      ),
-                                    );
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    if (!userDocument["w_check"])
+                                    {
+                                      getFoodMessage();
+                                    }    
+                                    else {                               
+                                      //get current user document
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      
+                                      // get current user specific field
+                                      List thisWeekFood = document["thisWeekFood"];
+                                      Navigator.push(
+                                        context, 
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation1, animation2) => FoodPage(index: 4, thisWeekFood: thisWeekFood,),
+                                          transitionDuration: Duration.zero,
+                                          reverseTransitionDuration: Duration.zero,
+                                        ),
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -505,19 +566,26 @@ class _PregPageState extends State<PregPage> {
                                 // ================ SATURDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    //get current user document
-                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
-                                    // get current user specific field
-                                    List thisWeekFood = document["thisWeekFood"];
-
-                                    Navigator.push(
-                                      context, 
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 5, thisWeekFood: thisWeekFood,),
-                                        transitionDuration: Duration.zero,
-                                        reverseTransitionDuration: Duration.zero,
-                                      ),
-                                    );
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    if (!userDocument["w_check"])
+                                    {
+                                      getFoodMessage();
+                                    }    
+                                    else {                               
+                                      //get current user document
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      
+                                      // get current user specific field
+                                      List thisWeekFood = document["thisWeekFood"];
+                                      Navigator.push(
+                                        context, 
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation1, animation2) => FoodPage(index: 5, thisWeekFood: thisWeekFood,),
+                                          transitionDuration: Duration.zero,
+                                          reverseTransitionDuration: Duration.zero,
+                                        ),
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -544,19 +612,26 @@ class _PregPageState extends State<PregPage> {
                                 // ================ SUNDAY BUTTON ===============
                                 GestureDetector(
                                   onTap: () async {
-                                    //get current user document
-                                    DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
-                                    // get current user specific field
-                                    List thisWeekFood = document["thisWeekFood"];
-                                    
-                                    Navigator.push(
-                                      context, 
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation1, animation2) => FoodPage(index: 6, thisWeekFood: thisWeekFood,),
-                                        transitionDuration: Duration.zero,
-                                        reverseTransitionDuration: Duration.zero,
-                                      ),
-                                    );
+                                    DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(getUserUID()).get();
+                                    if (!userDocument["w_check"])
+                                    {
+                                      getFoodMessage();
+                                    }    
+                                    else {                               
+                                      //get current user document
+                                      DocumentSnapshot document = await FirebaseFirestore.instance.collection('currentWeekFoods').doc(getUserUID()).get();
+                                      
+                                      // get current user specific field
+                                      List thisWeekFood = document["thisWeekFood"];
+                                      Navigator.push(
+                                        context, 
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation1, animation2) => FoodPage(index: 6, thisWeekFood: thisWeekFood,),
+                                          transitionDuration: Duration.zero,
+                                          reverseTransitionDuration: Duration.zero,
+                                        ),
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),

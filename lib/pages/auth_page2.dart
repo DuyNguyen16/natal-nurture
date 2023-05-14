@@ -20,7 +20,7 @@ class _AuthPage2State extends State<AuthPage2> {
 
   //---fetching current user uid---
   late String userUID;
-  String getUserData() {
+  String getUserUID() {
    final user = auth.currentUser;
    
    userUID = user!.uid;
@@ -50,17 +50,17 @@ class _AuthPage2State extends State<AuthPage2> {
                   {
                     if (snapshot.data!) 
                     {
-                      return NavigatorPage();
+                      return const NavigatorPage();
                     }
                     else 
                     {
-                      return OnBoardingPage();
+                      return const OnBoardingPage();
                     }
                     
                   }
                   return const Center(child: CircularProgressIndicator());
                 },
-                future: documentExist(getUserData()),
+                future: documentExist(getUserUID()),
             ),
       ),
     );

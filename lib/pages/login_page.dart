@@ -20,14 +20,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final userEmail = TextEditingController();
+  final userPassword = TextEditingController();
 
   //---Sign user in function (Email and Password Method)---
-  void SignUserIn() async {
+  void signUserIn() async {
     
     // check if the user enter informations
-    if (emailController.text.isEmpty || passwordController.text.isEmpty)
+    if (userEmail.text.isEmpty || userPassword.text.isEmpty)
     {
       myMessageDialog("Please enter informations");
     }
@@ -45,8 +45,8 @@ class _LoginPageState extends State<LoginPage> {
     //---try sign in---
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text, 
-        password: passwordController.text,
+        email: userEmail.text, 
+        password: userPassword.text,
       );
       
       //---pop the loading circle---
@@ -67,23 +67,23 @@ class _LoginPageState extends State<LoginPage> {
       }
       else {
         return showDialog(
-      context: context, 
-      builder: (context) {
-        Future.delayed(Duration(seconds: 7), () {
-          Navigator.of(context).pop(true);
-        });
-        //---Alert user---
-        return  AlertDialog(
-          backgroundColor: Colors.pinkAccent,
-          title: Center(
-            child: Text(
-            "Account has been temporarily disabled due to many failed login attempts, please try again in a few minutes",
-            style: TextStyle(color: Colors.white), textAlign: TextAlign.center,
-            ),
-          ),
+          context: context, 
+          builder: (context) {
+            Future.delayed(Duration(seconds: 7), () {
+              Navigator.of(context).pop(true);
+            });
+            //---Alert user---
+            return  AlertDialog(
+              backgroundColor: Colors.pinkAccent,
+              title: Center(
+                child: Text(
+                "Account has been temporarily disabled due to many failed login attempts, please try again in a few minutes",
+                style: TextStyle(color: Colors.white), textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          },
         );
-      },
-    );
       }
     }
     //---pop the loading circle---
@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                   MyTextField(
                     hintText: "Email",
                     obsecureText: false,
-                    controller: emailController,
+                    controller: userEmail,
                     icon: Icon(
                       Icons.email,
                       color: Colors.pinkAccent,
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                   MyTextField(
                     hintText: 'Password',
                     obsecureText: true,
-                    controller: passwordController,
+                    controller: userPassword,
                     icon: Icon(
                       Icons.password,
                       color: Colors.pinkAccent,
@@ -223,7 +223,7 @@ class _LoginPageState extends State<LoginPage> {
               
                   //---sign in button---
                   MyButton(
-                    onTap:SignUserIn,
+                    onTap:signUserIn,
                     text: 'Sign In',
                   ),
               

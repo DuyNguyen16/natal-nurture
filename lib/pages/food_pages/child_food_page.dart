@@ -67,7 +67,7 @@ class ChildFoodPage extends StatelessWidget {
       return "images/food_images/banana.png";
     }
     else if (foodName == 'Scrambled eggs') {
-      return "images/food_images/scrambled_eggs.png";
+      return "images/food_images/scrambled_egg.png";
     }
     else if (foodName == 'Sandwich') {
       return "images/food_images/sandwich.png";
@@ -96,7 +96,7 @@ class ChildFoodPage extends StatelessWidget {
       return "186 calories, 4 grams of protein, 30 grams of carbohydrate, 1 gram of fiber, and 5 grams of sugar.";
     }
     else if (foodName == 'Brunch style eggs') {
-      return "";
+      return "Brunch style eggs provides more than 90 calories, which is really good for you children for the day";
     }
     else if (foodName == 'Smoothie') {
       return "Smoothies can be a great way to increase intakes of fruit and vegetables in our diet, which would have many health benefits.";

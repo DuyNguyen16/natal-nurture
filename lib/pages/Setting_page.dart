@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
-import 'package:natal_nurture_1/pages/main_pages/home_page.dart';
-import 'package:natal_nurture_1/pages/main_pages/navigator.dart';
 import 'package:natal_nurture_1/pages/random/classes.dart';
 
 import 'auth_page.dart';
@@ -22,23 +20,28 @@ class _SettingsPageState extends State<SettingsPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final user = FirebaseAuth.instance.currentUser!;
   late String userUID;
-  //funtion to fet user uid from firebase  
+  //---funtion to fet user uid from firebase---
   String getUserUID() {
    final user = auth.currentUser;
    
    userUID = user!.uid;
    return userUID;
   }
-  //---changing user allergies function---
-  void changeAllergies() async {
-    DocumentSnapshot foodDocument = await FirebaseFirestore.instance.collection('foods').doc("food-id").get();
-    Map recommendedFood = foodDocument["recFoods"];
-    
+
+  //---function to remove user allergies from food recommendation list---
+  removeAllergies(Map foodRecommendation, List userAllergies) {
     //---loop through every items in userAllergies list---
     userAllergies.forEach((item) {
       //---remove the items at the recommended food map---
-      recommendedFood.remove(item);
-    },);
+      foodRecommendation.remove(item);
+    });
+    return foodRecommendation;
+  }
+
+  //---changing user allergies function---
+  void changeAllergies() async {
+    DocumentSnapshot foodDocument = await FirebaseFirestore.instance.collection('foods').doc("food-id").get();
+    Map recommendedFood = removeAllergies(foodDocument["recFoods"], userAllergies);
     //---update data---
     FirebaseFirestore.instance.collection('users').doc(getUserUID()).update({
       "userAllergies" : userAllergies,
@@ -49,9 +52,9 @@ class _SettingsPageState extends State<SettingsPage> {
   //---allergies list---
   List<String> userAllergies = [];
 
-  void ShowMultiSelect() async {
+  void showMultiSelect() async {
 
-    // list of allergies for user to select from
+    //---list of allergies for user to select from---
     final List<String> allergies = [
       'dairy',
       'egg',
@@ -79,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
       });
     }
   }
-  //Sign User out method
+  //---Sign User out method---
     void signUserOut() async{
 
       FirebaseAuth.instance.signOut();
@@ -105,7 +108,9 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Center(
             child: Column(
               children: [
-                SizedBox(height: 100,),
+
+                SizedBox(height: 80,),
+
                 Container(
                   width: 300,
                   child: Text(
@@ -122,7 +127,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 SizedBox(height: 40,),
 
                 MyButton(
-                  onTap: ShowMultiSelect,
+                  onTap: showMultiSelect,
                   text: "Select your allergies"
                 ),
 
@@ -131,7 +136,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 MyButton(
                   onTap: () {
                     changeAllergies();  
-                    // show dialog that successfully change allergies
+                    //---show dialog that successfully change allergies---
                     Flushbar(
                       margin: EdgeInsets.only(top: 5),
                       borderRadius: BorderRadius.circular(10),
@@ -147,7 +152,36 @@ class _SettingsPageState extends State<SettingsPage> {
                   text: "Change"
                 ),
                 
-                SizedBox(height: 110,),
+                SizedBox(height: 20,),
+
+                Text(
+                  "Allergies selected: ",
+                  style: TextStyle(
+                    color: Colors.pinkAccent,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
+                ),
+
+                Container(
+                  width: 340,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Wrap(
+                      children: userAllergies.map((allergy) => Chip(
+                        label: Text(allergy),
+                          labelStyle: TextStyle(
+                            color: Colors.pinkAccent,
+                            backgroundColor: Colors.white,
+                          ),
+                            backgroundColor: Colors.white,
+                        )).toList(),
+                        alignment: WrapAlignment.center,
+                    ),
+                  ),    
+                ),
+                
+                SizedBox(height: 60,),
 
                 TextButton(
                   onPressed: () {

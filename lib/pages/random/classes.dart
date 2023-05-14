@@ -50,7 +50,7 @@ class _MultiSelectState extends State<MultiSelect> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Select allergies"),
+      title: Text("Select allergies", style: TextStyle(color: Colors.pinkAccent),),
       content: SingleChildScrollView(
         child: ListBody(
           children: 

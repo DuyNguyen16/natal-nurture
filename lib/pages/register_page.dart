@@ -15,10 +15,9 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final passwordConfirmController = TextEditingController();
-  final controller = TextEditingController();
+  final userEmail = TextEditingController();
+  final userPassword = TextEditingController();
+  final userPasswordConfirm = TextEditingController();
   late String userUID;
   final FirebaseAuth auth = FirebaseAuth.instance;
   
@@ -32,41 +31,37 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //---Sign user up function (Email and Password Method)---
   void signUserUp() async {
-
    // ---check if the user enter informations---
-    if (emailController.text.isEmpty || passwordController.text.isEmpty|| passwordConfirmController.text.isEmpty)
+    if (userEmail.text.isEmpty || userPassword.text.isEmpty|| userPasswordConfirm.text.isEmpty)
     {
       myMessageDialog('Please enter informations');
     }
 
     //---try creating user account---
     
-    if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text) == true) 
+    if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(userEmail.text) == true) 
     {
       //---check length of password---
-      if ((passwordController.text).length < 6)
+      if ((userPassword.text).length < 6)
       {
         myMessageDialog('Password should be at least 6 characters');
       }
       //---check if passwords match---
-      if (passwordConfirmController.text == passwordController.text) 
+      if (userPasswordConfirm.text == userPassword.text) 
       {
         try
         {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailController.text, 
-            password: passwordController.text,
+            email: userEmail.text, 
+            password: userPassword.text,
           );
         }
         //---check to see if there is an existing account---
         on FirebaseAuthException catch (exception) {
         //---pop the loading circle---
           Navigator.pop(context);
-          //---Check to see if user email is correct---
-          if (exception.code == 'email-already-exists') {
-            //show error to user
-            return myMessageDialog("email already in use");
-          } 
+          //show error to user
+          return myMessageDialog("Email already in use");
         }
       } 
       else {
@@ -145,7 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 MyTextField(
                   hintText: "Email",
                   obsecureText: false,
-                  controller: emailController,
+                  controller: userEmail,
                   icon: Icon(
                     Icons.email,
                     color: Colors.pinkAccent,
@@ -158,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 MyTextField(
                   hintText: 'Password',
                   obsecureText: true,
-                  controller: passwordController,
+                  controller: userPassword,
                   icon: Icon(
                     Icons.password,
                     color: Colors.pinkAccent,
@@ -171,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 MyTextField(
                   hintText: 'Confirm Password',
                   obsecureText: true,
-                  controller: passwordConfirmController,
+                  controller: userPasswordConfirm,
                   icon: Icon(
                     Icons.password,
                     color: Colors.pinkAccent,

@@ -1,14 +1,12 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, use_build_context_synchronously, sort_child_properties_last
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/pages/random/classes.dart';
 import 'package:natal_nurture_1/pages/main_pages/navigator.dart';
-import 'package:natal_nurture_1/pages/Setting_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
@@ -20,37 +18,36 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-  // firebase auth
+  //---firebase auth---
   final FirebaseAuth auth = FirebaseAuth.instance;
-  // page controller
+  //---page controller---
   final page_controller = PageController();
-  // text editing controller to get data from input textfield
+  //---text editing controller to get data from input textfield---
   final controller = TextEditingController();
-  // user id
+  //---user id---
   late String userUID;
 
-  // declear conceptiondate variable
-  late String selectedDate;
+  //---declare conceptiondate variable---
+  late String conceptionDate;
 
-  // allergies list
+  //---allergies list---
   List<String> userAllergies = [];
 
-  void ShowMultiSelect() async {
+  void showMultiSelect() async {
 
-    // list of allergies for user to select from
+    //---list of allergies for user to select from---
     final List<String> allergies = [
       'dairy',
       'egg',
       'fruits',
       'legumes',
       'soy',
-      'seafood',
       'meat',
       'potato',
       'vegetable'
     ];
 
-    // result after the user select the allergies
+    //---result after the user select the allergies---
     final List<String>? results = await showDialog(
       context: context, 
       builder: (BuildContext context) {
@@ -58,7 +55,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       }
     );
 
-    // update the userAllergies to the result that the user selected
+    //---update the userAllergies to the result that the user selected---
     if (results != null) {
       setState(() {
         userAllergies = results;
@@ -66,6 +63,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     }
   }
 
+  //---function to remove user allergies from food recommendation list---
+  removeAllergies(Map foodRecommendation, List userAllergies) {
+    //---loop through every items in userAllergies list---
+    userAllergies.forEach((item) {
+      //---remove the items at the recommended food map---
+      foodRecommendation.remove(item);
+    });
+    return foodRecommendation;
+  }
 
   //funtion to fetch user id from firebase  
   String getUserUID() {
@@ -74,14 +80,30 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
    userUID = user!.uid;
    return userUID;
   }
-
-
-
+  
+  //---function to create new user and save user data on Firebase---
+  Future createUser({required String selectedDate, required String userUID, required List userAllergies, required Map recommendedFood}) async {
+      // reference to document on firebase
+      final userDoc = FirebaseFirestore.instance.collection('users').doc(getUserUID());
+      // name and items to create
+      final json = {
+        'UserUID': userUID,
+        'conceptionDate': selectedDate,
+        'userAllergies': userAllergies,
+        "recommendedFood": recommendedFood,
+        "c_check": false,
+        "w_check": false,
+      };
+      await userDoc.set(json);
+  }
 
   void enterConceptionDateMessage() {
     showDialog(
       context: context, 
       builder: (context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
         return const AlertDialog(
           backgroundColor: Colors.pinkAccent,
           title: Text(
@@ -93,7 +115,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       },
     );
   }
-
   // date controller
   TextEditingController date = TextEditingController();
 
@@ -140,11 +161,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           ),
 
                           SizedBox(height: 20),
+                          
                           Container(
                             
                             width: 300,
                             child: Text(
-                              "Natal Nurture is a pregnancy app that provides users with informations on what to to eat during their pregnacy.",
+                              "Natal Nurture is a pregnancy app that provides users with informations on what to to eat during their pregnacy, and track their pregnacy with they estimated due date of 280 days. We also provides food recommendations for the day for your children.",
                               style: TextStyle(
                                 color: Colors.white, 
                                 fontSize: 18,
@@ -220,6 +242,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
+                                fontSize: 17,
                               ),
                             ),
                           ),
@@ -249,20 +272,18 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               onTap: () async {
                                 //---get the current date---
                                 var currentDate = DateTime.now();
-                                var formatterDay =  DateFormat('dd');
-                                var formatterMonth = DateFormat('MM');
-                                var formatterYear = DateFormat("yyyy");
 
                                 //---get the current day---
-                                var currentDay = int.parse(formatterDay.format(currentDate));
+                                var currentDay = int.parse(DateFormat('dd').format(currentDate));
 
                                 //---get the current month---
-                                var currentMonth = int.parse(formatterMonth.format(currentDate));
+                                var currentMonth = int.parse(DateFormat('MM').format(currentDate));
                                 
                                 //---current year--- 
-                                var currentYear = int.parse(formatterYear.format(currentDate));
-
+                                var currentYear = int.parse(DateFormat("yyyy").format(currentDate));
+                                //---limit the month that the user can select---
                                 var minMonth = (12 - (8 - currentMonth)); 
+                                //---limit the day that the user can select---
                                 var minDay = ((30 - (30 - currentDay)) - 10);
                                 if (currentMonth > 8 && currentDay > 10) {
                                   //---date picker api---
@@ -366,7 +387,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 "Please select foods that you're allergies to, so that we can ensure the foods we recommned don't contains them.",
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 15,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.center,
@@ -378,7 +399,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           SizedBox(height: 30),
 
                           MyButton(
-                            onTap: ShowMultiSelect,
+                            onTap: showMultiSelect,
                             text: "Select your allergies"
                           ),
                           
@@ -394,17 +415,27 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           Text(
                             "Allergies selected: ",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.pinkAccent,
                               fontWeight: FontWeight.bold,
+                              fontSize: 17,
                             ),
                           ),
-                          Wrap(
-                            children: userAllergies.map((allergy) => Chip(
-                              label: Text(allergy),
-                              labelStyle: TextStyle(
-                                color: Colors.pinkAccent,
+                          Container(
+                            width: 340,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Wrap(
+                                children: userAllergies.map((allergy) => Chip(
+                                  label: Text(allergy),
+                                  labelStyle: TextStyle(
+                                    color: Colors.pinkAccent,
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  backgroundColor: Colors.white,
+                                )).toList(),
+                                alignment: WrapAlignment.center,
                               ),
-                            )).toList(),
+                            ),    
                           ),
 
                           SizedBox(height: 145),
@@ -491,21 +522,22 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               else
                               {
                                 DocumentSnapshot document = await FirebaseFirestore.instance.collection('foods').doc("food-id").get();
-                                Map recommendedFood = document["recFoods"];
-                                    
-
-
-                                selectedDate = date.text;
+                                //---recommendation food map---
+                                Map recommendedFood = removeAllergies(document["recFoods"], userAllergies);
+                                
+                                //---Date of conception---
+                                conceptionDate = date.text;
                                 final userUID = getUserUID();
 
-                                  // loop through every items in userAllergies list
-                                  userAllergies.forEach((item) {
-                                    // remove the items at the recommended food map
-                                    recommendedFood.remove(item);
-                                  },);
-
-                                  createUser(selectedDate: selectedDate, userUID: userUID, userAllergies: userAllergies, recommendedFood: recommendedFood); 
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => NavigatorPage()));
+                                  createUser(selectedDate: conceptionDate, userUID: userUID, userAllergies: userAllergies, recommendedFood: recommendedFood); 
+                                  Navigator.push(
+                                      context, 
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation1, animation2) => NavigatorPage(),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration: Duration.zero,
+                                      ),
+                                    );
                               }
                             },
                             
@@ -537,18 +569,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
 
     
-  }
-  Future createUser({required String selectedDate, required String userUID, required List userAllergies, required Map recommendedFood}) async {
-      // reference to document on firebase
-      final UserDoc = FirebaseFirestore.instance.collection('users').doc(getUserUID());
-      // name and items to create
-      final json = {
-        'UserUID': userUID,
-        'Date': selectedDate,
-        'userAllergies': userAllergies,
-        "recommendedFood": recommendedFood,
-      };
-      await UserDoc.set(json);
   }
 }
 
