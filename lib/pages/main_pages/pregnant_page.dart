@@ -146,7 +146,7 @@ class _PregPageState extends State<PregPage> {
                       // days remained text
                       Container(
                         child: Text(
-                          "Days remained:",
+                          "Days estimated:",
                           style: TextStyle(
                             color: Colors.pinkAccent,
                             fontSize: 25,
