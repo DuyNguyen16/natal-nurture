@@ -33,28 +33,24 @@ class _AuthPage2State extends State<AuthPage2> {
       return false;
     }
   } 
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: FutureBuilder<bool>(
-                builder: (context, snapshot) 
-                {
-                  if (snapshot.hasData) 
-                  {
-                    if (snapshot.data!) 
-                    {
-                      return const NavigatorPage();
-                    }
-                    else 
-                    {
-                      return const OnBoardingPage();
-                    }
-                    
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                },
-                future: documentExist(data.userUID),
-            ),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!) {
+                return const NavigatorPage();
+              } 
+              else {
+                return const OnBoardingPage();
+              }
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+          future: documentExist(data.userUID),
+        ),
       ),
     );
   }

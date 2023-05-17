@@ -324,7 +324,7 @@ class _PregPageState extends State<PregPage> {
                                     DocumentSnapshot userDocument = await FirebaseFirestore.instance.collection("users").doc(data.userUID).get();
                                     if (!userDocument["w_check"])
                                     {
-                                      getFoodMessage();
+                                      return getFoodMessage();
                                     }    
                                     else {                               
                                       //get current user document

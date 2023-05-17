@@ -98,7 +98,7 @@ class _ResetPassPageState extends State<ResetPassPage> {
                 MyButton(onTap: () {
                   resetPassword();
 
-                  // ---show dialog that resett password send successfully---
+                  // ---show dialog that reset password sent successfully---
                   Flushbar(
                     margin: EdgeInsets.only(top: 2),
                     borderRadius: BorderRadius.circular(10),

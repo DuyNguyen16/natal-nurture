@@ -90,7 +90,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       //---Background Image---
       decoration: BoxDecoration(
           image: DecorationImage(
@@ -110,111 +109,109 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                //---logo---
-            
-                //---hello again!---
-                Text(
-                  "Welcome!",
-                  style: TextStyle(fontWeight: FontWeight.bold, 
-                  fontSize: 40,
-                  color: Colors.pinkAccent,            
-                  ),
-                ),
-            
-                const SizedBox(height: 7,),
-                //---Welcome back text---
-                Text(
-                  "Let's create an account for you!",
-                  style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 20,),
-                //---email textfield---
-                MyTextField(
-                  hintText: "Email",
-                  obsecureText: false,
-                  controller: userEmail,
-                  icon: Icon(
-                    Icons.email,
-                    color: Colors.pinkAccent,
-                  ),
-                ),
 
-                SizedBox(height: 7,),
-
-                //---password textfield---
-                MyTextField(
-                  hintText: 'Password',
-                  obsecureText: true,
-                  controller: userPassword,
-                  icon: Icon(
-                    Icons.password,
-                    color: Colors.pinkAccent,
-                  ),
-                ),
-
-                SizedBox(height: 7,),
-
-                //---confirm password textfield---
-                MyTextField(
-                  hintText: 'Confirm Password',
-                  obsecureText: true,
-                  controller: userPasswordConfirm,
-                  icon: Icon(
-                    Icons.password,
-                    color: Colors.pinkAccent,
-                  ),
-                ),
-            
-                SizedBox(height: 7,),
-                
-                
-
-                SizedBox(height: 15,),
-            
-                //---sign up button---
-                MyButton(
-                  onTap: signUserUp,
-                  text: 'Sign Up',
-                ),
-            
-                const SizedBox(height: 17),
-            
-                //---already have an account?---
-                Row( 
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Already have an account?',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  //---hello again!---
+                  Text(
+                    "Welcome!",
+                    style: TextStyle(fontWeight: FontWeight.bold, 
+                    fontSize: 40,
+                    color: Colors.pinkAccent,            
                     ),
-                    const SizedBox(width: 8,),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context, 
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) => LoginPage(),
-                            transitionDuration: Duration.zero,
-                            reverseTransitionDuration: Duration.zero,
+                  ),
+              
+                  const SizedBox(height: 7,),
+
+                  //---Welcome back text---
+                  Text(
+                    "Let's create an account for you!",
+                    style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
+                  ),
+                  
+                  SizedBox(height: 20,),
+                  //---email textfield---
+                  MyTextField(
+                    hintText: "Email",
+                    obsecureText: false,
+                    controller: userEmail,
+                    icon: Icon(
+                      Icons.email,
+                      color: Colors.pinkAccent,
+                    ),
+                  ),
+
+                  SizedBox(height: 7,),
+
+                  //---password textfield---
+                  MyTextField(
+                    hintText: 'Password',
+                    obsecureText: true,
+                    controller: userPassword,
+                    icon: Icon(
+                      Icons.password,
+                      color: Colors.pinkAccent,
+                    ),
+                  ),
+
+                  SizedBox(height: 7,),
+
+                  //---confirm password textfield---
+                  MyTextField(
+                    hintText: 'Confirm Password',
+                    obsecureText: true,
+                    controller: userPasswordConfirm,
+                    icon: Icon(
+                      Icons.password,
+                      color: Colors.pinkAccent,
+                    ),
+                  ),
+
+                  SizedBox(height: 22,),
+              
+                  //---sign up button---
+                  MyButton(
+                    onTap: signUserUp,
+                    text: 'Sign Up',
+                  ),
+              
+                  const SizedBox(height: 17),
+              
+                  //---already have an account?---
+                  Row( 
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Already have an account?',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+
+                      const SizedBox(width: 8,),
+                      
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context, 
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) => LoginPage(),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Login now',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
                           ),
-                        );
-                      },
-                      child: Text(
-                       'Login now',
-                        style: TextStyle(
-                         fontWeight: FontWeight.bold,
-                          color: Colors.blue,
                         ),
-                      ),
-                    )
-                  ]
-                )
-              ],
-                      ),
+                      )
+                    ]
+                  )
+                ],
+              ),
             ),
-        )),
+          )
+        ),
       ),
-      
-    );
-    
+    );  
   }
 }

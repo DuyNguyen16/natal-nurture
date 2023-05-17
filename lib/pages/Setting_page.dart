@@ -54,7 +54,6 @@ class _SettingsPageState extends State<SettingsPage> {
       'fruits',
       'legumes',
       'soy',
-      'seafood',
       'meat',
       'potato',
       'vegetable'
@@ -101,7 +100,6 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Center(
             child: Column(
               children: [
-
                 SizedBox(height: 80,),
 
                 Container(

@@ -25,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
 
   //---Sign user in function (Email and Password Method)---
   void signUserIn() async {
-    
     // check if the user enter informations
     if (userEmail.text.isEmpty || userPassword.text.isEmpty)
     {
