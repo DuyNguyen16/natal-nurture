@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.pop(context);
   }
       
-    //---message function---
+  //---message function---
   void myMessageDialog(String message) {
     showDialog(
       context: context, 
@@ -210,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Text(
                             'Forgot Password?',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.blue,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -256,7 +256,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                         'Register now',
                           style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.bold,
                             color: Colors.blue,
                           ),
                         ),

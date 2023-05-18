@@ -4,10 +4,7 @@ import 'dart:async';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
 import 'package:natal_nurture_1/pages/login_page.dart';
@@ -22,24 +19,65 @@ class ResetPassPage extends StatefulWidget {
 class _ResetPassPageState extends State<ResetPassPage> {
   final userEmail = TextEditingController();
 
-  Future resetPassword() async {
-    try{
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail.text.trim());
-    } on FirebaseAuthException catch (exception) {
-      print(exception);
+  //---message function---
+  void myMessageDialog(String message) {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+        });
+        //---Alert user---
+        return  AlertDialog(
+          backgroundColor: Colors.pinkAccent,
+          title: Center(
+            child: Text(
+            message,
+            style: TextStyle(color: Colors.white), textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      },
+    );
+  }
 
-      // ---show dialog that resett password send successfully---
-      Flushbar(
-        margin: EdgeInsets.only(top: 3),
-        borderRadius: BorderRadius.circular(10),
-        maxWidth: 250,
-        icon: Icon(Icons.check, color: Colors.pinkAccent, size: 25,),
-        message: exception.message,
-        messageText: Text("Unable to send reset password", style: TextStyle(fontSize: 16.0, color: Colors.pinkAccent,),),
-        duration: Duration(milliseconds: 2200),
-        flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: Colors.white,
-      ).show(context);
+  Future resetPassword() async {
+    if (userEmail.text.isEmpty) 
+    {
+      return myMessageDialog("Please enter informations");
+    }
+    
+    else {
+      try{
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail.text.trim());
+          // ---show dialog that reset password sent successfully---
+        Flushbar(
+          margin: EdgeInsets.only(top: 2),
+          borderRadius: BorderRadius.circular(10),
+          maxWidth: 250,
+          icon: Icon(Icons.check, color: Colors.pinkAccent, size: 25,),
+          message: "Password reset email sent",
+          messageText: Text("Password reset email sent", style: TextStyle(fontSize: 16.0, color: Colors.pinkAccent,),),
+          duration: Duration(milliseconds: 2200),
+          flushbarPosition: FlushbarPosition.TOP,
+          backgroundColor: Colors.white,
+        ).show(context);
+      } on FirebaseAuthException catch (exception) {
+        print(exception);
+
+        // ---show dialog that resett password send successfully---
+        Flushbar(
+          margin: EdgeInsets.only(top: 3),
+          borderRadius: BorderRadius.circular(10),
+          maxWidth: 250,
+          icon: Icon(Icons.check, color: Colors.pinkAccent, size: 25,),
+          message: exception.message,
+          messageText: Text("Unable to send reset password", style: TextStyle(fontSize: 16.0, color: Colors.pinkAccent,),),
+          duration: Duration(milliseconds: 2200),
+          flushbarPosition: FlushbarPosition.TOP,
+          backgroundColor: Colors.white,
+        ).show(context);
+      }
     }
   }
 
@@ -97,19 +135,6 @@ class _ResetPassPageState extends State<ResetPassPage> {
 
                 MyButton(onTap: () {
                   resetPassword();
-
-                  // ---show dialog that reset password sent successfully---
-                  Flushbar(
-                    margin: EdgeInsets.only(top: 2),
-                    borderRadius: BorderRadius.circular(10),
-                    maxWidth: 250,
-                    icon: Icon(Icons.check, color: Colors.pinkAccent, size: 25,),
-                    message: "Password reset email sent",
-                    messageText: Text("Password reset email sent", style: TextStyle(fontSize: 16.0, color: Colors.pinkAccent,),),
-                    duration: Duration(milliseconds: 2200),
-                    flushbarPosition: FlushbarPosition.TOP,
-                    backgroundColor: Colors.white,
-                  ).show(context);
                   
                   Timer(Duration(seconds: 2), () {
                     Navigator.pushReplacement(
