@@ -6,8 +6,6 @@ import 'package:natal_nurture_1/components/reusableData.dart';
 import 'package:natal_nurture_1/pages/boarding_page.dart';
 import 'package:natal_nurture_1/pages/main_pages/navigator.dart';
 
-//---called in reusableData class to access to reusable data types---
-reusableData data = reusableData();
 
 class AuthPage2 extends StatefulWidget {
   AuthPage2({super.key});
@@ -18,6 +16,16 @@ class AuthPage2 extends StatefulWidget {
 }
 
 class _AuthPage2State extends State<AuthPage2> {
+      //---Firebase initualise---
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  late String userUID;
+
+  //---funtion to fet user uid from firebase---
+  String getUserUID() {
+   final user = auth.currentUser;
+   userUID = user!.uid;
+   return userUID;
+  }
   @override
   
   //---function that check if the user document exist---
@@ -41,15 +49,15 @@ class _AuthPage2State extends State<AuthPage2> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!) {
-                return const NavigatorPage();
+                return  NavigatorPage();
               } 
               else {
-                return const OnBoardingPage();
+                return  OnBoardingPage();
               }
             }
             return const Center(child: CircularProgressIndicator());
           },
-          future: documentExist(data.userUID),
+          future: documentExist(getUserUID()),
         ),
       ),
     );

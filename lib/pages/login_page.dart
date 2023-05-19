@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
 import 'package:natal_nurture_1/pages/register_page.dart';
+import 'package:natal_nurture_1/pages/register_page1.dart';
 import 'package:natal_nurture_1/pages/reset_password_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,8 +21,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   
-  final userEmail = TextEditingController();
-  final userPassword = TextEditingController();
+  final TextEditingController userEmail = TextEditingController();
+  final TextEditingController userPassword = TextEditingController();
 
   //---Sign user in function (Email and Password Method)---
   void signUserIn() async {
@@ -59,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
       if (exception.code == 'user-not-found') {
         //show error to user
         return myMessageDialog("Incorrect email");
+        
       } 
       //---Check to see if user password is correct---
       else if (exception.code == 'wrong-password'){
@@ -222,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
               
                   //---sign in button---
                   MyButton(
-                    onTap:signUserIn,
+                    onTap: signUserIn,
                     text: 'Sign In',
                   ),
               

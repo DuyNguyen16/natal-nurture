@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
+import 'package:natal_nurture_1/pages/auth_page.dart';
 import 'package:natal_nurture_1/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -31,19 +32,29 @@ class _RegisterPageState extends State<RegisterPage> {
     
     if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(userEmail.text) == true) 
     {
-      //---check length of password---
-      if ((userPassword.text).length < 6)
-      {
-        return myMessageDialog('Password should be at least 6 characters');
-      }
       //---check if passwords match---
       if (userPasswordConfirm.text == userPassword.text) 
       {
+        //---check length of password---
+        if ((userPassword.text).length < 6)
+        {
+          return myMessageDialog('Password should be at least 6 characters');
+        }
+        
         try
         {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: userEmail.text, 
             password: userPassword.text,
+          );
+
+          Navigator.pushReplacement(
+            context, 
+            PageRouteBuilder(
+              pageBuilder: (context, animation1, animation2) => AuthPage(),
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+            ),
           );
         }
         //---check to see if there is an existing account---
@@ -51,9 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
         //---pop the loading circle---
           Navigator.pop(context);
           //show error to user
-          
-            return myMessageDialog("Email already in use");
-          
+          return myMessageDialog(exception.code); 
         }
       } 
       else {

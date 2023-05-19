@@ -9,9 +9,6 @@ import 'package:natal_nurture_1/components/my_multi_select.dart';
 import 'package:natal_nurture_1/components/reusableData.dart';
 import 'auth_page.dart';
 
-//---called in reusableData class to access to reusable data types---
-reusableData data = reusableData();
-
 class SettingsPage extends StatefulWidget {
   SettingsPage({super.key});
   
@@ -20,6 +17,16 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+    //---Firebase initualise---
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  late String userUID;
+
+  //---funtion to fet user uid from firebase---
+  String getUserUID() {
+   final user = auth.currentUser;
+   userUID = user!.uid;
+   return userUID;
+  }
 
   //---function to remove user allergies from food recommendation list---
   removeAllergies(Map foodRecommendation, List userAllergies) {
@@ -36,7 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
     DocumentSnapshot foodDocument = await FirebaseFirestore.instance.collection('foods').doc("food-id").get();
     Map recommendedFood = removeAllergies(foodDocument["recFoods"], userAllergies);
     //---update data---
-    FirebaseFirestore.instance.collection('users').doc(data.userUID).update({
+    FirebaseFirestore.instance.collection('users').doc(getUserUID()).update({
       "userAllergies" : userAllergies,
       "recommendedFood" : recommendedFood,
     });

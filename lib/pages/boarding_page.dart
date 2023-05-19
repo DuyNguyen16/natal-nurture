@@ -10,8 +10,6 @@ import 'package:natal_nurture_1/components/reusableData.dart';
 import 'package:natal_nurture_1/pages/main_pages/navigator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-//---called in reusableData class to access to reusable data types---
-reusableData data = reusableData();
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -25,9 +23,22 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   final page_controller = PageController();
   //---text editing controller to get data from input textfield---
   final controller = TextEditingController();
+    //---Firebase initualise---
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  TextEditingController date = TextEditingController();
 
   //---declare conceptiondate variable---
   late String conceptionDate;
+
+  late String userUID;
+
+  //---funtion to fet user uid from firebase---
+  String getUserUID() {
+   final user = auth.currentUser;
+   userUID = user!.uid;
+   return userUID;
+  }
+
 
   //---allergies list---
   List<String> userAllergies = [];
@@ -75,7 +86,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   //---function to create new user and save user data on Firebase---
   Future createUser({required String selectedDate, required String userUID, required List userAllergies, required Map recommendedFood}) async {
       // reference to document on firebase
-      final userDoc = FirebaseFirestore.instance.collection('users').doc(data.userUID);
+      final userDoc = FirebaseFirestore.instance.collection('users').doc(getUserUID());
       // name and items to create
       final json = {
         'UserUID': userUID,
@@ -242,7 +253,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             width: 330,
                             child: TextField(
                               
-                              controller: data.date,
+                              controller: date,
                               decoration: InputDecoration(
                                 enabledBorder:  const OutlineInputBorder(
                                 borderSide: BorderSide(color: Color.fromARGB(255, 225, 107, 107))
@@ -285,7 +296,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
                                   if (pickeddate != null) {
                                     setState(() {
-                                      data.date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
+                                      date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
                                     });
                                   }    
                                 }
@@ -300,7 +311,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
                                   if (pickeddate != null) {
                                     setState(() {
-                                      data.date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
+                                      date.text = DateFormat('dd-MM-yyyy').format(pickeddate);
                                     });
                                   }
                                 }
@@ -503,7 +514,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             onTap: () async{
                               
                               // check if user select date of conception
-                              if (data.date.text == "")
+                              if (date.text == "")
                               {
                                   enterConceptionDateMessage();
                                   page_controller.jumpToPage(1);
@@ -515,8 +526,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 Map recommendedFood = removeAllergies(document["recFoods"], userAllergies);
                                 
                                 //---Date of conception---
-                                conceptionDate = data.date.text;
-                                final userUID = data.userUID;
+                                conceptionDate = date.text;
+                                final userUID = getUserUID();
 
                                   createUser(selectedDate: conceptionDate, userUID: userUID, userAllergies: userAllergies, recommendedFood: recommendedFood); 
                                   Navigator.push(

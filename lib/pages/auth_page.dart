@@ -8,7 +8,7 @@ import 'package:natal_nurture_1/pages/login_page.dart';
 
 class AuthPage extends StatelessWidget {
   AuthPage({super.key});
-  final auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {

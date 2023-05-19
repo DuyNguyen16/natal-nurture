@@ -49,7 +49,9 @@ class _ResetPassPageState extends State<ResetPassPage> {
     
     else {
       try{
-        await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail.text.trim());
+        await FirebaseAuth.instance.sendPasswordResetEmail(
+          email: userEmail.text.trim()
+        );
           // ---show dialog that reset password sent successfully---
         Flushbar(
           margin: EdgeInsets.only(top: 2),
