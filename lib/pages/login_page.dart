@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
+import 'package:natal_nurture_1/pages/auth_page.dart';
 import 'package:natal_nurture_1/pages/register_page.dart';
 import 'package:natal_nurture_1/pages/register_page1.dart';
 import 'package:natal_nurture_1/pages/reset_password_page.dart';
@@ -51,7 +52,15 @@ class _LoginPageState extends State<LoginPage> {
       
       //---pop the loading circle---
       Navigator.pop(context);
-
+      
+      Navigator.pushReplacement(
+        context, 
+        PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) => AuthPage(),
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+        ),
+      );
       //---check to see if there is an existing account---
     } on FirebaseAuthException catch (exception) {
       //---pop the loading circle---
@@ -59,12 +68,14 @@ class _LoginPageState extends State<LoginPage> {
       //---Check to see if user email is correct---
       if (exception.code == 'user-not-found') {
         //show error to user
-        return myMessageDialog("Incorrect email");
-        
+        return myMessageDialog("Incorrect email");    
       } 
       //---Check to see if user password is correct---
       else if (exception.code == 'wrong-password'){
         return myMessageDialog("Incorrect password");
+      }
+      else if (exception.code == 'invalid-email'){
+        return myMessageDialog("Invalid email");
       }
       else {
         return showDialog(
@@ -86,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
           },
         );
       }
+      
     }
     //---pop the loading circle---
     Navigator.pop(context);

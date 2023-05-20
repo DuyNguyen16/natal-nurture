@@ -64,12 +64,24 @@ class _ResetPassPageState extends State<ResetPassPage> {
           flushbarPosition: FlushbarPosition.TOP,
           backgroundColor: Colors.white,
         ).show(context);
+        Timer(Duration(seconds: 3), () {
+          Navigator.pushReplacement(
+            context, 
+            PageRouteBuilder(
+              pageBuilder: (context, animation1, animation2) => LoginPage(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+            ),
+          );
+        });
       } on FirebaseAuthException catch (exception) {
-        print(exception);
+        if (exception.code == 'invalid-email') {
+          return myMessageDialog("Invalid email");
+        }
 
         // ---show dialog that resett password send successfully---
         Flushbar(
-          margin: EdgeInsets.only(top: 3),
+          margin: EdgeInsets.only(top: 4),
           borderRadius: BorderRadius.circular(10),
           maxWidth: 250,
           icon: Icon(Icons.check, color: Colors.pinkAccent, size: 25,),
@@ -86,6 +98,13 @@ class _ResetPassPageState extends State<ResetPassPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(255, 164, 190, 1),
+        leading: const BackButton(
+          color: Colors.black,
+        ),
+        centerTitle: true,
+      ),
       body: Container(
         //---Background Image---
         decoration: BoxDecoration(
@@ -138,35 +157,11 @@ class _ResetPassPageState extends State<ResetPassPage> {
                 MyButton(onTap: () {
                   resetPassword();
                   
-                  Timer(Duration(seconds: 2), () {
-                    Navigator.pushReplacement(
-                        context, 
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) => LoginPage(),
-                          transitionDuration: Duration.zero,
-                          reverseTransitionDuration: Duration.zero,
-                        ),
-                    );
-                  });
                 }, 
                   text: "Reset Password"
                 ),
 
-                SizedBox(height: 5,),
-
-                MyButton(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context, 
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) => LoginPage(),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      ),
-                    );
-                  },
-                  text: "Back",
-                )
+                SizedBox(height: 115,),
               ]
             ),
           )

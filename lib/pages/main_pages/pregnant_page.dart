@@ -107,10 +107,13 @@ class _PregPageState extends State<PregPage> {
     }
     createThisWeekFood(thisWeekFood: thisWeekFood);
   }
-  double weekCal(int userDay, int userMonth, int userYear, int currentDay, int currentMonth, int currenYear) {
+  //---function to calculate how many weeks has it been---
+   int weekCal(int userDay, int userMonth, int userYear, int currentDay, int currentMonth, int currenYear) {
     double totalDays = ((currentDay - userDay) + ((currentMonth - userMonth) * 30))/7;
-    return totalDays;
+    var totalWeeks = (totalDays).round();
+    return totalWeeks;
   }
+
   //---function to calculate how many days left---
   int daysLeftCal(int userDay, int userMonth, int userYear, int currentDay, int currentMonth, int currentYear) {
     // ---converting string  (day,month,year into int in order to do calculation)---
@@ -200,7 +203,7 @@ class _PregPageState extends State<PregPage> {
                               var currentYear = int.parse(formatterYear.format(currentDate));
                   
                               int daysRemained = daysLeftCal(userDay, userMonth, userYear, currentDay, currentMonth, currentYear);
-                              double totalWeeks = weekCal(userDay, userMonth, userYear, currentDay, currentMonth,currentYear);
+                              int totalWeeks = weekCal(userDay, userMonth, userYear, currentDay, currentMonth,currentYear);
                               
                               
                               return Center(
@@ -212,8 +215,29 @@ class _PregPageState extends State<PregPage> {
                                     children: [
                                       SizedBox(height: 45,),
 
-                                      Text("$daysRemained", style: TextStyle(color: Colors.pinkAccent, fontSize: 40, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                                      Text("days", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                                      Text("Week", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),),
+                                      Text("$totalWeeks", style: TextStyle(color: Colors.pinkAccent, fontSize: 40, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "$daysRemained", 
+                                            style: TextStyle(
+                                              color: Colors.pinkAccent, 
+                                              fontWeight: FontWeight.bold, 
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          Text(
+                                            " days left", 
+                                            style: TextStyle(
+                                              color: Colors.white, 
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                     ],
                                   ),
                                   backgroundColor: Colors.white,
