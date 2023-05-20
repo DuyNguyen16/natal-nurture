@@ -107,7 +107,10 @@ class _PregPageState extends State<PregPage> {
     }
     createThisWeekFood(thisWeekFood: thisWeekFood);
   }
-
+  double weekCal(int userDay, int userMonth, int userYear, int currentDay, int currentMonth, int currenYear) {
+    double totalDays = ((currentDay - userDay) + ((currentMonth - userMonth) * 30))/7;
+    return totalDays;
+  }
   //---function to calculate how many days left---
   int daysLeftCal(int userDay, int userMonth, int userYear, int currentDay, int currentMonth, int currentYear) {
     // ---converting string  (day,month,year into int in order to do calculation)---
@@ -155,17 +158,6 @@ class _PregPageState extends State<PregPage> {
                       
                       SizedBox(height: 20),
                       // days remained text
-                      Container(
-                        child: Text(
-                          "Days estimated:",
-                          style: TextStyle(
-                            color: Colors.pinkAccent,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                  
-                        ),
-                      ),
                   
                       SizedBox(height: 20),
 
@@ -207,12 +199,13 @@ class _PregPageState extends State<PregPage> {
                               // current year 
                               var currentYear = int.parse(formatterYear.format(currentDate));
                   
-                              int daysRemained = daysLeftCal(userDay, userMonth, userYear, currentDay, currentMonth, currentYear)    ;
+                              int daysRemained = daysLeftCal(userDay, userMonth, userYear, currentDay, currentMonth, currentYear);
+                              double totalWeeks = weekCal(userDay, userMonth, userYear, currentDay, currentMonth,currentYear);
                               
                               
                               return Center(
                                 child: CircularPercentIndicator(
-                                  radius: 75,
+                                  radius: 90,
                                   lineWidth: 10,
                                   percent: percentCal(280, daysRemained),
                                   center: Column(
