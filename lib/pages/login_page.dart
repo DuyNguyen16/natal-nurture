@@ -3,13 +3,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:natal_nurture_1/components/my_button.dart';
 import 'package:natal_nurture_1/components/my_textfield.dart';
 import 'package:natal_nurture_1/pages/auth_page.dart';
 import 'package:natal_nurture_1/pages/register_page.dart';
-import 'package:natal_nurture_1/pages/register_page1.dart';
 import 'package:natal_nurture_1/pages/reset_password_page.dart';
 
 class LoginPage extends StatefulWidget {
