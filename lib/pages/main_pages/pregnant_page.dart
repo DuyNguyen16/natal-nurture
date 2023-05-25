@@ -114,7 +114,7 @@ class _PregPageState extends State<PregPage> {
       totalDays = (((12 - userMonth) * 30) + (currentMonth * 30) + (currentDay))/7;
     }
     else {
-      totalDays = ((currentDay - userDay) + ((currentMonth - userMonth) * 30))/7;
+      totalDays = ((currentDay - userDay) + ((currentMonth - userMonth) * 30) + (30 - userDay))/7;
     }
     var totalWeeks = (totalDays).round();
     return totalWeeks;
