@@ -108,8 +108,14 @@ class _PregPageState extends State<PregPage> {
     createThisWeekFood(thisWeekFood: thisWeekFood);
   }
   //---function to calculate how many weeks has it been---
-   int weekCal(int userDay, int userMonth, int userYear, int currentDay, int currentMonth, int currenYear) {
-    double totalDays = ((currentDay - userDay) + ((currentMonth - userMonth) * 30))/7;
+   int weekCal(int userDay, int userMonth, int userYear, int currentDay, int currentMonth, int currentYear) {
+    double totalDays;
+    if (userYear < currentYear) {
+      totalDays = (((12 - userMonth) * 30) + (currentMonth * 30) + (currentDay))/7;
+    }
+    else {
+      totalDays = ((currentDay - userDay) + ((currentMonth - userMonth) * 30))/7;
+    }
     var totalWeeks = (totalDays).round();
     return totalWeeks;
   }
