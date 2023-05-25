@@ -181,8 +181,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
                           MyButton(onTap: () => page_controller.jumpToPage(1), text: "Let's get started!"),
                           
-                          SizedBox(height: 228),
-
+                          SizedBox(height: 150,),
+                          
                           Container(
                             child: Center(
                               child: SmoothPageIndicator(
@@ -191,7 +191,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 effect: SwapEffect(activeDotColor: Colors.pinkAccent),
                               ),
                             ),
-                          )
+                          ),
+
+                          SizedBox(height: 28),
                         ],
                       ),
                     ),
@@ -446,7 +448,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               count: 4,
                               effect: SwapEffect(activeDotColor: Colors.pinkAccent),
                             ),
-                          )
+                          ),
+
+                          SizedBox(height: 8,),
                         ],
                         
                       ),
